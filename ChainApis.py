@@ -309,4 +309,13 @@ chainAPIs = {
         },        
         "@Umee_CrossChain"
         ],
+    "kyve": [  
+        'https://kyve-api.polkachu.com/cosmos/gov/v1/proposals',
+        {
+            "ping": 'https://ping.pub/kyve/gov',
+            "mintscan": 'https://www.mintscan.io/kyve/proposals',
+            "keplr": 'https://wallet.keplr.app/chains/kyve/proposals',
+        },        
+        "@KYVENetwork"
+        ],
 }
