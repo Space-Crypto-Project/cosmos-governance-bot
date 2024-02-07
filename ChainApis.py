@@ -43,7 +43,7 @@ chainAPIs = {
         "@dig_chain"
         ],
     'juno': [
-        'https://lcd-juno.itastakers.com/cosmos/gov/v1beta1/proposals',
+        'https://juno.stakesystems.io/cosmos/gov/v1/proposals',
         {
             "ping": 'https://ping.pub/juno/gov',
             "mintscan": 'https://www.mintscan.io/juno/proposals',
@@ -253,7 +253,7 @@ chainAPIs = {
         '@provenancefdn'
         ],
     "secret": [  
-        'https://api.scrt.network/cosmos/gov/v1beta1/proposals',
+        'https://lcd-secret.keplr.app/cosmos/gov/v1beta1/proposals',
         {
             "ping": 'https://ping.pub/secret/gov',
             "mintscan": 'https://www.mintscan.io/secret/proposals',
