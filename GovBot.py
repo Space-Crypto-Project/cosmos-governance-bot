@@ -233,13 +233,26 @@ def post_update(ticker, propID, title, description="", isDAO=False, DAOVoteLink=
 def getAllProposals(ticker) -> list:
     # Makes request to API & gets JSON reply in form of a list
     props = []
+    version = ''
+
+    print(f"Getting all live (voting period) proposals with for {ticker}")
     
     try:
         link = chainAPIs[ticker][0]
+        #check if link contains /v1/ or /v1beta1/ to determine which version of the API to use
+        if 'v1beta1' in link:
+            version = 'v1beta'
+        else:
+            version = 'v1'
+
         response = requests.get(link, headers={
             'accept': 'application/json', 
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36'}, 
-            params={'proposal_status': '2'}) # 2 = voting period
+            params={
+                'proposal_status': '2' # 2 = voting period
+                #'pagination.reverse': 'true'
+
+                }) 
         # print(response.url)
         props = response.json()['proposals']
     except Exception as e:
@@ -302,6 +315,13 @@ def checkIfNewestProposalIDIsGreaterThanLastTweet(ticker):
     if ticker in proposals:
         lastPropID = int(proposals[ticker])
 
+    link = chainAPIs[ticker][0]
+    #check if link contains /v1/ or /v1beta1/ to determine which version of the API to use
+    if 'v1beta1' in link:
+        version = 'v1beta'
+    else:
+        version = 'v1'
+
     # gets JSON list of all proposals
     props = getAllProposals(ticker)
     if len(props) == 0:
@@ -309,8 +329,12 @@ def checkIfNewestProposalIDIsGreaterThanLastTweet(ticker):
 
     # loop through out last stored voted prop ID & newest proposal ID
     for prop in props:
-        current_prop_id = int(prop['proposal_id'])
+        if version == 'v1':
+            current_prop_id = int(prop['id'])
+        elif version == 'v1beta':
+            current_prop_id = int(prop['proposal_id'])
 
+        #print(f"Last prop id: {lastPropID}")
         # If this is a new proposal which is not the last one we tweeted for
         if current_prop_id > lastPropID:   
             print(f"Newest prop ID {current_prop_id} is greater than last prop ID {lastPropID}")
@@ -321,11 +345,18 @@ def checkIfNewestProposalIDIsGreaterThanLastTweet(ticker):
             else:
                 print("Not in production, not writing to file.")
 
+            if version == 'v1':
+                title = prop['message'][0]['content']['title']
+                description = prop['message'][0]['content']['description']
+            elif version == 'v1beta':
+                title = prop['content']['title']
+                description = prop['content']['description']
+
             post_update(
                 ticker=ticker,
                 propID=current_prop_id, 
-                title=prop['content']['title'], 
-                description=prop['content']['description'], # for discord embeds
+                title=title, 
+                description=description, # for discord embeds
             )
 
 def logRun():
