@@ -69,7 +69,7 @@ chainAPIs = {
         '@osmosiszone'
         ],
     'atom': [
-        'https://lcd-cosmoshub.blockapsis.com/cosmos/gov/v1beta1/proposals',
+        'https://lcd-cosmoshub.keplr.app/cosmos/gov/v1beta1/proposals',
         {
             "ping": 'https://ping.pub/cosmos/gov',
             "mintscan": 'https://www.mintscan.io/cosmos/proposals',
@@ -78,7 +78,7 @@ chainAPIs = {
         "@cosmos"
         ],
     'akt': [
-        'https://akash.api.ping.pub/cosmos/gov/v1beta1/proposals',
+        'https://akash-api.polkachu.com/cosmos/gov/v1beta1/proposals',
         {
             "ping": 'https://ping.pub/akash-network/gov',
             "mintscan": 'https://www.mintscan.io/akash/proposals',
@@ -137,7 +137,7 @@ chainAPIs = {
         '@BitCannaGlobal'
         ],
     "btsg": [ 
-        'https://lcd-bitsong.itastakers.com/cosmos/gov/v1beta1/proposals',
+        'https://lcd.explorebitsong.com/cosmos/gov/v1beta1/proposals',
         {
             "ping": 'https://ping.pub/bitsong/gov',
             "mintscan": 'https://www.mintscan.io/bitsong/proposals',
@@ -168,7 +168,7 @@ chainAPIs = {
         '@cheqd_io'
         ],
     "cro": [  
-        'https://mainnet.crypto.org:1317/cosmos/gov/v1beta1/proposals',
+        'https://cronos-rest.publicnode.com/cosmos/gov/v1beta1/proposals',
         {
             "ping": 'https://ping.pub/crypto-com-chain/gov',
             "mintscan": 'https://www.mintscan.io/crypto-org/proposals',
@@ -219,15 +219,6 @@ chainAPIs = {
         },        
         '@irisnetwork'
         ],
-    'iov': [ #Starname
-        "https://lcd-iov.keplr.app/cosmos/gov/v1beta1/proposals",
-        {
-            "ping": 'https://ping.pub/starname/gov',
-            "mintscan": 'https://www.mintscan.io/starname/proposals',
-            "keplr": 'https://wallet.keplr.app/chains/starname/proposals',
-        },        
-        '@starname_me'
-        ],
     "lum": [  
         'https://node0.mainnet.lum.network/rest/cosmos/gov/v1beta1/proposals',
         {
@@ -271,7 +262,7 @@ chainAPIs = {
         '@Sentinel_co'
         ],
     "sif": [  
-        'https://api.sifchain.finance:443/cosmos/gov/v1beta1/proposals',
+        'https://sifchain-api.polkachu.com/cosmos/gov/v1beta1/proposals',
         {
             "ping": 'https://ping.pub/sifchain/gov',
             "mintscan": 'https://www.mintscan.io/sifchain/proposals',
@@ -301,7 +292,7 @@ chainAPIs = {
         "@terra_money"
         ],
     "umee": [  
-        'https://api.blue.main.network.umee.cc/cosmos/gov/v1beta1/proposals',
+        'https://umee.api.kjnodes.com/cosmos/gov/v1beta1/proposals',
         {
             "ping": 'https://ping.pub/umee/gov',
             "mintscan": 'https://www.mintscan.io/umee/proposals',
