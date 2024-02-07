@@ -1,6 +1,10 @@
 # CosmosGovernanceProposalBot
 A twitter + discord webhook bot to notify users of governance proposals when in voting period<br/>
 
+## Installation Guide
+https://envy-cosmos.neocities.org/post/deploying-a-discord-governance-bot/
+
+
 Twitter: [@CosmosGovNotifs](https://twitter.com/CosmosGovNotifs) <br />
 <img src="https://user-images.githubusercontent.com/31943163/160246645-a4a58384-ec9a-4019-bba8-88af6016e0d7.png" alt="twitter" width="450"/>
 
