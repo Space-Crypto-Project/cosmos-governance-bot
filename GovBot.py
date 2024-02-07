@@ -249,7 +249,7 @@ def getAllProposals(ticker) -> list:
             'accept': 'application/json', 
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36'}, 
             params={
-                #'proposal_status': '1' # 2 = voting period
+                'proposal_status': '2' # 2 = voting period
                 #'pagination.reverse': 'true'
 
                 }) 
@@ -355,8 +355,8 @@ def checkIfNewestProposalIDIsGreaterThanLastTweet(ticker):
                 title = prop['content']['title']
                 description = prop['content']['description']
 
-            print(f"New proposal found for {ticker} | {current_prop_id} | {title}")
-            print(f"Description: {description}")
+            #print(f"New proposal found for {ticker} | {current_prop_id} | {title}")
+            #print(f"Description: {description}")
 
             post_update(
                 ticker=ticker,
