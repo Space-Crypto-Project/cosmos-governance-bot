@@ -334,7 +334,7 @@ def checkIfNewestProposalIDIsGreaterThanLastTweet(ticker):
         elif version == 'v1beta':
             current_prop_id = int(prop['proposal_id'])
 
-        print(f"Last prop id: {lastPropID}")
+        #print(f"Last prop id: {lastPropID}")
         # If this is a new proposal which is not the last one we tweeted for
         if current_prop_id > lastPropID:   
             print(f"Newest prop ID {current_prop_id} is greater than last prop ID {lastPropID}")
