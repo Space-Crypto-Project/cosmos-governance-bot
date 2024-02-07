@@ -347,8 +347,10 @@ def checkIfNewestProposalIDIsGreaterThanLastTweet(ticker):
                 print("Not in production, not writing to file.")
 
             if version == 'v1':
-                title = prop['messages'][0]['content']['title']
-                description = prop['messages'][0]['content']['description']
+                if 'messages' in prop and len(prop['messages']) > 0:
+                    if 'content' in prop['messages'][0]:
+                        title = prop['messages'][0]['content'].get('title', prop['title'])
+                        description = prop['messages'][0]['content'].get('description', prop['summary'])
             elif version == 'v1beta':
                 title = prop['content']['title']
                 description = prop['content']['description']
