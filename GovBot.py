@@ -249,7 +249,7 @@ def getAllProposals(ticker) -> list:
             'accept': 'application/json', 
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36'}, 
             params={
-                'proposal_status': '2' # 2 = voting period
+                #'proposal_status': '1' # 2 = voting period
                 #'pagination.reverse': 'true'
 
                 }) 
@@ -325,7 +325,7 @@ def checkIfNewestProposalIDIsGreaterThanLastTweet(ticker):
     # gets JSON list of all proposals
     props = getAllProposals(ticker)
     if len(props) == 0:
-        return
+        return "No proposals found for this ticker."
 
     # loop through out last stored voted prop ID & newest proposal ID
     for prop in props:
@@ -334,7 +334,7 @@ def checkIfNewestProposalIDIsGreaterThanLastTweet(ticker):
         elif version == 'v1beta':
             current_prop_id = int(prop['proposal_id'])
 
-        #print(f"Last prop id: {lastPropID}")
+        print(f"Last prop id: {lastPropID}")
         # If this is a new proposal which is not the last one we tweeted for
         if current_prop_id > lastPropID:   
             print(f"Newest prop ID {current_prop_id} is greater than last prop ID {lastPropID}")
@@ -342,15 +342,19 @@ def checkIfNewestProposalIDIsGreaterThanLastTweet(ticker):
             if IS_FIRST_RUN or IN_PRODUCTION:      
                 # save to proposals dict & to file (so we don't post again), unless its the first run                                 
                 update_proposal_value(ticker, current_prop_id)
+
             else:
                 print("Not in production, not writing to file.")
 
             if version == 'v1':
-                title = prop['message'][0]['content']['title']
-                description = prop['message'][0]['content']['description']
+                title = prop['messages'][0]['content']['title']
+                description = prop['messages'][0]['content']['description']
             elif version == 'v1beta':
                 title = prop['content']['title']
                 description = prop['content']['description']
+
+            print(f"New proposal found for {ticker} | {current_prop_id} | {title}")
+            print(f"Description: {description}")
 
             post_update(
                 ticker=ticker,
@@ -421,7 +425,7 @@ if __name__ == "__main__":
     if IN_PRODUCTION:
         SCHEDULE_SECONDS = 30*60
         print("[!] BOT IS RUNNING IN PRODUCTION MODE!!!!!!!!!!!!!!!!!!")
-        time.sleep(5)
+        time.sleep(1)
 
         output = "[!] Running "
         if TICKERS_TO_ANNOUNCE == []:
