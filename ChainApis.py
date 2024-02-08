@@ -112,7 +112,7 @@ chainAPIs = {
         '@likecoin'
         ],
     'xprt': [
-        'https://rest.core.persistence.one/cosmos/gov/v1beta1/proposals',
+        'https://rest.core.persistence.one/cosmos/gov/v1/proposals',
         {
             "ping": 'https://ping.pub/persistence/gov',
             "mintscan": 'https://www.mintscan.io/persistence/proposals',
@@ -211,7 +211,7 @@ chainAPIs = {
         '@InjectiveLabs'
         ],
     "iris": [  
-        'https://lcd-iris.keplr.app/cosmos/gov/v1beta1/proposals',
+        'https://lcd-iris.keplr.app/cosmos/gov/v1/proposals',
         {
             "ping": 'https://ping.pub/iris-network/gov',
             "mintscan": 'https://www.mintscan.io/iris/proposals',
@@ -292,7 +292,7 @@ chainAPIs = {
         "@terra_money"
         ],
     "umee": [  
-        'https://umee.api.kjnodes.com/cosmos/gov/v1beta1/proposals',
+        'https://umee.api.kjnodes.com/cosmos/gov/v1/proposals',
         {
             "ping": 'https://ping.pub/umee/gov',
             "mintscan": 'https://www.mintscan.io/umee/proposals',
