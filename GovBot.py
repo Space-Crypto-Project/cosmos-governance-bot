@@ -346,16 +346,20 @@ def checkIfNewestProposalIDIsGreaterThanLastTweet(ticker):
             else:
                 print("Not in production, not writing to file.")
 
+            title = ""
+            description = ""
+
             if version == 'v1':
                 if 'messages' in prop and len(prop['messages']) > 0:
-                    if 'title' in prop['messages'][0]['content'] and 'description' in prop['messages'][0]['content']:
+                    if 'content' in prop['messages'][0]:
                         title = prop['messages'][0]['content'].get('title', "")
                         description = prop['messages'][0]['content'].get('description', "")
-                    elif 'title' in prop and 'summary' in prop:
+                    if 'title' in prop and 'summary' in prop and title == "" and description == "": 
                         title = prop['title']
                         description = prop['summary']
-                    elif 'metadata' in prop:
-                        metadata = json.loads(prop['messages'][0]['metadata'])
+                    if 'metadata' in prop and title == "" and description == "":
+                        metadata = json.loads(prop['metadata'])
+                        #metadata = json.loads(prop['messages'][0]['metadata'])
                         title = metadata.get('title', "title not found")
                         description = metadata.get('summary', "description not found")
             elif version == 'v1beta':
