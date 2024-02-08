@@ -5,7 +5,7 @@ Dict of chains in the following format:
     "ticker": [
         "LCD endpoints for proposals",
         {
-            "ping": "https://ping.pub/ticker/gov/",
+            "ping": "https://explorer.spacestake.tech/ticker/gov/",
             "mintscan": "https://mintscan.io/ticker/proposals/",
         },
         "@twitter"
@@ -38,7 +38,7 @@ chainAPIs = {
     'juno': [
         'https://juno.stakesystems.io/cosmos/gov/v1/proposals',
         {
-            "ping": 'https://ping.pub/juno/gov',
+            "ping": 'https://explorer.spacestake.tech/juno/gov',
             "mintscan": 'https://www.mintscan.io/juno/proposals',
             "keplr": 'https://wallet.keplr.app/chains/juno/proposals'
         },
@@ -47,7 +47,7 @@ chainAPIs = {
     'huahua': [
         'https://api.chihuahua.wtf/cosmos/gov/v1/proposals',
         {
-            "ping": 'https://ping.pub/chihuahua/gov',
+            "ping": 'https://explorer.spacestake.tech/chihuahua/gov',
             "mintscan": 'https://www.mintscan.io/chihuahua/proposals',
         },
         "@ChihuahuaChain"
@@ -55,7 +55,7 @@ chainAPIs = {
     'osmo': [
         'https://lcd-osmosis.blockapsis.com/cosmos/gov/v1beta1/proposals',
         {
-            "ping": 'https://ping.pub/osmosis/gov',
+            "ping": 'https://explorer.spacestake.tech/osmosis/gov',
             "mintscan": 'https://www.mintscan.io/osmosis/proposals',
             "keplr": 'https://wallet.keplr.app/chains/osmosis/proposals'
         },
@@ -64,7 +64,7 @@ chainAPIs = {
     'atom': [
         'https://lcd-cosmoshub.keplr.app/cosmos/gov/v1beta1/proposals',
         {
-            "ping": 'https://ping.pub/cosmos/gov',
+            "ping": 'https://explorer.spacestake.tech/cosmos/gov',
             "mintscan": 'https://www.mintscan.io/cosmos/proposals',
             "keplr": 'https://wallet.keplr.app/chains/cosmos-hub/proposals'
         },
@@ -73,7 +73,7 @@ chainAPIs = {
     'akt': [
         'https://akash-api.polkachu.com/cosmos/gov/v1beta1/proposals',
         {
-            "ping": 'https://ping.pub/akash-network/gov',
+            "ping": 'https://explorer.spacestake.tech/akash-network/gov',
             "mintscan": 'https://www.mintscan.io/akash/proposals',
             "keplr": 'https://wallet.keplr.app/chains/akash/proposals'
         },
@@ -82,7 +82,7 @@ chainAPIs = {
     'stars': [
         "https://rest.stargaze-apis.com/cosmos/gov/v1beta1/proposals",
         {
-            "ping": 'https://ping.pub/stargaze/gov',
+            "ping": 'https://explorer.spacestake.tech/stargaze/gov',
             "mintscan": 'https://www.mintscan.io/stargaze/proposals',
             "keplr": 'https://wallet.keplr.app/chains/stargaze/proposals'
         },        
@@ -91,7 +91,7 @@ chainAPIs = {
     'kava': [
         'https://api.data.kava.io/cosmos/gov/v1/proposals',
         {
-            "ping": 'https://ping.pub/kava/gov',
+            "ping": 'https://explorer.spacestake.tech/kava/gov',
             "mintscan": 'https://www.mintscan.io/kava/proposals',
             "keplr": 'https://wallet.keplr.app/chains/kava/proposals'
         },        
@@ -100,14 +100,14 @@ chainAPIs = {
     'like': [
         'https://mainnet-node.like.co/cosmos/gov/v1beta1/proposals',
         {
-            "ping": 'https://ping.pub/likecoin/gov',
+            "ping": 'https://explorer.spacestake.tech/likecoin/gov',
         },        
         '@likecoin'
         ],
     'xprt': [
         'https://rest.core.persistence.one/cosmos/gov/v1/proposals',
         {
-            "ping": 'https://ping.pub/persistence/gov',
+            "ping": 'https://explorer.spacestake.tech/persistence/gov',
             "mintscan": 'https://www.mintscan.io/persistence/proposals',
             "keplr": 'https://wallet.keplr.app/chains/persistence/proposals',
         },        
@@ -116,7 +116,7 @@ chainAPIs = {
     'cmdx': [
         'https://rest.comdex.one/cosmos/gov/v1beta1/proposals',
         {
-            "ping": 'https://ping.pub/comdex/gov',
+            "ping": 'https://explorer.spacestake.tech/comdex/gov',
             "mintscan": 'https://www.mintscan.io/comdex/proposals',
         },        
         '@ComdexOfficial'
@@ -124,7 +124,7 @@ chainAPIs = {
     "bcna": [ 
         'https://lcd.bitcanna.io/cosmos/gov/v1beta1/proposals',
         {
-            "ping": 'https://ping.pub/bitcanna/gov',
+            "ping": 'https://explorer.spacestake.tech/bitcanna/gov',
             "mintscan": 'https://www.mintscan.io/bitcanna/proposals',
         },        
         '@BitCannaGlobal'
@@ -132,7 +132,7 @@ chainAPIs = {
     "btsg": [ 
         'https://lcd.explorebitsong.com/cosmos/gov/v1beta1/proposals',
         {
-            "ping": 'https://ping.pub/bitsong/gov',
+            "ping": 'https://explorer.spacestake.tech/bitsong/gov',
             "mintscan": 'https://www.mintscan.io/bitsong/proposals',
         },        
         '@BitSongOfficial'
@@ -140,7 +140,7 @@ chainAPIs = {
     "band": [
         'https://laozi1.bandchain.org/api/cosmos/gov/v1beta1/proposals',
         {
-            "ping": 'https://ping.pub/band-protocol/gov',
+            "ping": 'https://explorer.spacestake.tech/band-protocol/gov',
             "mintscan": 'https://www.mintscan.io/akash/proposals',
         },        
         '@BandProtocol'
@@ -148,7 +148,7 @@ chainAPIs = {
     "boot": [ # Bostrom
         'https://lcd.bostrom.cybernode.ai/cosmos/gov/v1beta1/proposals',
         {
-            "ping": 'https://ping.pub/bostrom/gov',
+            "ping": 'https://explorer.spacestake.tech/bostrom/gov',
             "keplr": 'https://wallet.keplr.app/chains/bostrom/proposals',
         },        
         ''
@@ -156,14 +156,14 @@ chainAPIs = {
     "cheqd": [ 
         'https://api.cheqd.net/cosmos/gov/v1beta1/proposals',
         {
-            "ping": 'https://ping.pub/cheqd/gov',
+            "ping": 'https://explorer.spacestake.tech/cheqd/gov',
         },        
         '@cheqd_io'
         ],
     "cro": [  
         'https://cronos-rest.publicnode.com/cosmos/gov/v1beta1/proposals',
         {
-            "ping": 'https://ping.pub/crypto-com-chain/gov',
+            "ping": 'https://explorer.spacestake.tech/crypto-com-chain/gov',
             "mintscan": 'https://www.mintscan.io/crypto-org/proposals',
             "keplr": 'https://wallet.keplr.app/chains/crypto-org/proposals'
         },        
@@ -172,7 +172,7 @@ chainAPIs = {
     "evmos": [  
         'https://rest.bd.evmos.org:1317/cosmos/gov/v1beta1/proposals',
         {
-            "ping": 'https://ping.pub/evmos/gov',
+            "ping": 'https://explorer.spacestake.tech/evmos/gov',
             "mintscan": 'https://www.mintscan.io/evmos/proposals',
             "keplr": 'https://wallet.keplr.app/chains/evmos/proposals/'
         },        
@@ -181,7 +181,7 @@ chainAPIs = {
     "fetch": [
         'https://rest-fetchhub.fetch.ai/cosmos/gov/v1beta1/proposals',
         {
-            "ping": 'https://ping.pub/fetchhub/gov',
+            "ping": 'https://explorer.spacestake.tech/fetchhub/gov',
             "mintscan": 'https://www.mintscan.io/fetchai/proposals',
         },        
         '@Fetch_ai'
@@ -189,7 +189,7 @@ chainAPIs = {
     "grav": [  
         'https://gravitychain.io:1317/cosmos/gov/v1beta1/proposals',
         {
-            "ping": 'https://ping.pub/gravity-bridge/gov',
+            "ping": 'https://explorer.spacestake.tech/gravity-bridge/gov',
             "mintscan": 'https://www.mintscan.io/gravity-bridge/proposals',
             "keplr": 'https://wallet.keplr.app/chains/gravity-bridge/proposals'
         },        
@@ -198,7 +198,7 @@ chainAPIs = {
     "inj": [  
         'https://public.lcd.injective.network/cosmos/gov/v1beta1/proposals',
         {
-            "ping": 'https://ping.pub/injective/gov',
+            "ping": 'https://explorer.spacestake.tech/injective/gov',
             "mintscan": 'https://www.mintscan.io/injective/proposals',
         },        
         '@InjectiveLabs'
@@ -206,7 +206,7 @@ chainAPIs = {
     "iris": [  
         'https://lcd-iris.keplr.app/cosmos/gov/v1/proposals',
         {
-            "ping": 'https://ping.pub/iris-network/gov',
+            "ping": 'https://explorer.spacestake.tech/iris-network/gov',
             "mintscan": 'https://www.mintscan.io/iris/proposals',
             "keplr": 'https://wallet.keplr.app/chains/irisnet/proposals'
         },        
@@ -215,7 +215,7 @@ chainAPIs = {
     "lum": [  
         'https://node0.mainnet.lum.network/rest/cosmos/gov/v1/proposals',
         {
-            "ping": 'https://ping.pub/lum-network/gov',
+            "ping": 'https://explorer.spacestake.tech/lum-network/gov',
             "mintscan": 'https://www.mintscan.io/lum/proposals',
         },        
         '@lum_network'
@@ -223,7 +223,7 @@ chainAPIs = {
     "regen": [  
         'https://regen.stakesystems.io/cosmos/gov/v1/proposals',
         {
-            "ping": 'https://ping.pub/regen/gov',
+            "ping": 'https://explorer.spacestake.tech/regen/gov',
             "mintscan": 'https://www.mintscan.io/regen/proposals',
             "keplr": 'https://wallet.keplr.app/chains/regen/proposals'
         },        
@@ -232,14 +232,14 @@ chainAPIs = {
     "hash": [  
         'https://api.provenance.io/cosmos/gov/v1beta1/proposals',
         {
-            "ping": 'https://ping.pub/provenance/gov',
+            "ping": 'https://explorer.spacestake.tech/provenance/gov',
         },        
         '@provenancefdn'
         ],
     "secret": [  
         'https://lcd-secret.keplr.app/cosmos/gov/v1beta1/proposals',
         {
-            "ping": 'https://ping.pub/secret/gov',
+            "ping": 'https://explorer.spacestake.tech/secret/gov',
             "mintscan": 'https://www.mintscan.io/secret/proposals',
             "keplr": 'https://wallet.keplr.app/chains/secret-network/proposals'
         },        
@@ -248,7 +248,7 @@ chainAPIs = {
     "sent": [  
         'https://lcd-sentinel.keplr.app/cosmos/gov/v1beta1/proposals',        
         {
-            "ping": 'https://ping.pub/sentinel/gov',
+            "ping": 'https://explorer.spacestake.tech/sentinel/gov',
             "mintscan": 'https://www.mintscan.io/sentinel/proposals',
             "keplr": 'https://wallet.keplr.app/chains/sentinel/proposals',
         },        
@@ -257,7 +257,7 @@ chainAPIs = {
     "sif": [  
         'https://sifchain-api.polkachu.com/cosmos/gov/v1beta1/proposals',
         {
-            "ping": 'https://ping.pub/sifchain/gov',
+            "ping": 'https://explorer.spacestake.tech/sifchain/gov',
             "mintscan": 'https://www.mintscan.io/sifchain/proposals',
             "keplr": 'https://wallet.keplr.app/chains/sifchain/proposals'
         },        
@@ -273,21 +273,21 @@ chainAPIs = {
     "terraC": [  
         'https://blockdaemon-terra-lcd.api.bdnodes.net:1317/cosmos/gov/v1beta1/proposals',
         {
-            "ping": 'https://ping.pub/terra-luna/gov',
+            "ping": 'https://explorer.spacestake.tech/terra-luna/gov',
         },        
         "@terraC_money"
         ],
     "terra": [  
         'https://phoenix-lcd.terra.dev/cosmos/gov/v1beta1/proposals',
         {
-            "ping": 'https://ping.pub/terra2/gov',
+            "ping": 'https://explorer.spacestake.tech/terra2/gov',
         },        
         "@terra_money"
         ],
     "umee": [  
         'https://umee.api.kjnodes.com/cosmos/gov/v1/proposals',
         {
-            "ping": 'https://ping.pub/umee/gov',
+            "ping": 'https://explorer.spacestake.tech/umee/gov',
             "mintscan": 'https://www.mintscan.io/umee/proposals',
             "keplr": 'https://wallet.keplr.app/chains/umee/proposals',
         },        
@@ -296,7 +296,7 @@ chainAPIs = {
     "kyve": [  
         'https://kyve-api.polkachu.com/cosmos/gov/v1/proposals',
         {
-            "ping": 'https://ping.pub/kyve/gov',
+            "ping": 'https://explorer.spacestake.tech/kyve/gov',
             "mintscan": 'https://www.mintscan.io/kyve/proposals',
             "keplr": 'https://wallet.keplr.app/chains/kyve/proposals',
         },        
@@ -305,7 +305,7 @@ chainAPIs = {
     "tia": [
         'https://api.lunaroasis.net/cosmos/gov/v1beta1/proposals',
         {
-            "ping": 'https://ping.pub/celestia/gov',
+            "ping": 'https://explorer.spacestake.tech/celestia/gov',
             "mintscan": 'https://www.mintscan.io/celestia/proposals',
             "keplr": 'https://wallet.keplr.app/chains/celestia/proposals',
         },
@@ -314,7 +314,7 @@ chainAPIs = {
     "axl": [
         'https://axelar-api.polkachu.com/cosmos/gov/v1beta1/proposals',
         {
-            "ping": 'https://ping.pub/axelar/gov',
+            "ping": 'https://explorer.spacestake.tech/axelar/gov',
             "mintscan": 'https://www.mintscan.io/axelar/proposals',
             "keplr": 'https://wallet.keplr.app/chains/axelar/proposals',
         },
@@ -323,7 +323,7 @@ chainAPIs = {
     "dydx": [
         'https://dydx-dao-api.polkachu.com/cosmos/gov/v1/proposals',
         {
-            "ping": 'https://ping.pub/dydx/gov',
+            "ping": 'https://explorer.spacestake.tech/dydx/gov',
             "mintscan": 'https://www.mintscan.io/dydx/proposals',
             "keplr": 'https://wallet.keplr.app/chains/dydx/proposals',
         },
@@ -332,14 +332,14 @@ chainAPIs = {
     "stake" : [
         'https://noble-api.polkachu.com/cosmos/gov/v1beta1/proposals',
         {
-            "ping": 'https://ping.pub/noble/gov',
+            "ping": 'https://explorer.spacestake.tech/noble/gov',
         },
         ""
     ],
     "zeta": [
         'https://zetachain.blockpi.network/lcd/v1/public/cosmos/gov/v1/proposals',
         {
-            "ping": 'https://ping.pub/zetachain/gov',
+            "ping": 'https://explorer.spacestake.tech/zetachain/gov',
         
         },
         ""
