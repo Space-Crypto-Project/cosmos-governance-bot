@@ -46,6 +46,7 @@ with open('secrets.json', 'r') as f:
     secrets = json.load(f)
 
     IN_PRODUCTION = secrets.get('IN_PRODUCTION', True)
+    FETCH_LAST_PROP = secrets.get('FETCH_LAST_PROP', False)
     TWITTER = secrets['TWITTER']['ENABLED']
     DISCORD = secrets['DISCORD']['ENABLED']
     DISCORD_THREADS_AND_REACTIONS = secrets['DISCORD_THREADS']['ENABLE_THREADS_AND_REACTIONS']
@@ -215,19 +216,23 @@ def post_update(ticker, propID, title, description="", isDAO=False, DAOVoteLink=
     print(message)
 
     if IN_PRODUCTION:
-        try:
-            if TWITTER:
+        if TWITTER:
+            try:
                 tweet = api.update_status(message)
                 print(f"Tweet sent for {tweet.id}: {message}")
-            if DISCORD:
+            except Exception as err:
+                print("Tweet failed due to being duplicate OR " + str(err)) 
+        if DISCORD:
+            try:
                 discord_post_to_channel(ticker, propID, title, description, chainExploreLink)
                 if DISCORD_THREADS_AND_REACTIONS:
                     # Threads must be enabled for reacts bc bot token
                     discord_add_reacts(_getLastMessageID())
                     discord_create_thread(_getLastMessageID(), f"{ticker}-{propID}") 
                     pass
-        except Exception as err:
-            print("Tweet failed due to being duplicate OR " + str(err)) 
+            except Exception as err:
+                print("Discord post failed: " + str(err))
+      
     
     
 def getAllProposals(ticker) -> list:
@@ -235,7 +240,10 @@ def getAllProposals(ticker) -> list:
     props = []
     version = ''
 
-    print(f"Getting all live (voting period) proposals with for {ticker}")
+    if FETCH_LAST_PROP:
+        print(f"Getting last proposal for {ticker}")
+    else:
+        print(f"Getting live (voting period) proposals with for {ticker}")
     
     try:
         link = chainAPIs[ticker][0]
@@ -245,14 +253,16 @@ def getAllProposals(ticker) -> list:
         else:
             version = 'v1'
 
+        if (FETCH_LAST_PROP): # if we want to fetch the last proposal (testing purposes)
+            PARAMS = {'pagination.limit': 1, 'pagination.reverse': 'true'}
+        else:
+            PARAMS = {'proposal_status': '2'} # 2 = voting period
+
         response = requests.get(link, headers={
             'accept': 'application/json', 
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36'}, 
-            params={
-                'proposal_status': '2' # 2 = voting period
-                #'pagination.reverse': 'true'
-
-                }) 
+            params=PARAMS) 
+        
         # print(response.url)
         props = response.json()['proposals']
     except Exception as e:
@@ -357,18 +367,25 @@ def checkIfNewestProposalIDIsGreaterThanLastTweet(ticker):
                     if 'title' in prop and 'summary' in prop and title == "" and description == "": 
                         title = prop['title']
                         description = prop['summary']
-                    if 'metadata' in prop and title == "" and description == "":
-                        metadata = json.loads(prop['metadata'])
-                        #metadata = json.loads(prop['messages'][0]['metadata'])
-                        title = metadata.get('title', "title not found")
-                        description = metadata.get('summary', "description not found")
+                    if 'metadata' in prop and title == "" and description == "" and prop['metadata'].strip():
+                        try:
+                            metadata = json.loads(prop['metadata'])
+                            title = metadata.get('title', "title not found")
+                            description = metadata.get('summary', "description not found")
+                        except json.JSONDecodeError:
+                            print(f"Invalid JSON in metadata, title and description not found for for {ticker} proposal #{current_prop_id}.")
+                            title = f"Proposal #{current_prop_id}"
+                            description = "No title and description found."
+
             elif version == 'v1beta':
-                title = prop['content']['title']
-                description = prop['content']['description']
-
-            #print(f"New proposal found for {ticker} | {current_prop_id} | {title}")
-            #print(f"Description: {description}")
-
+                try:
+                    title = prop['content']['title']
+                    description = prop['content']['description']
+                except KeyError:
+                    print(f"Title and description not found for proposal #{current_prop_id}. Try to change the LCD endpoint for {ticker} from 'v1beta1' to 'v1'")
+                    title = f"Proposal #{current_prop_id}"
+                    description = f"No title and description found. Try to change the Bot LCD endpoint for {ticker} from 'v1beta1' to 'v1'"
+            
             post_update(
                 ticker=ticker,
                 propID=current_prop_id, 
@@ -437,7 +454,7 @@ if __name__ == "__main__":
     # informs user & setups of length of time between runs
     if IN_PRODUCTION:
         SCHEDULE_SECONDS = 30*60
-        print("[!] BOT IS RUNNING IN PRODUCTION MODE!!!!!!!!!!!!!!!!!!")
+        print("[!] BOT IS RUNNING IN PRODUCTION MODE [!]")
         time.sleep(1)
 
         output = "[!] Running "
@@ -455,6 +472,9 @@ if __name__ == "__main__":
         print("DISCORD module enabled")
     if TWITTER:
         print("TWITTER module enabled")
+    if FETCH_LAST_PROP:
+        print("Fetching last proposal for each chain...")
+    
 
     runChecks()
 

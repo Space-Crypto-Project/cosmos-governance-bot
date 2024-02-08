@@ -45,7 +45,7 @@ chainAPIs = {
         "@JunoNetwork"
         ],
     'huahua': [
-        'https://api.chihuahua.wtf/cosmos/gov/v1beta1/proposals',
+        'https://api.chihuahua.wtf/cosmos/gov/v1/proposals',
         {
             "ping": 'https://ping.pub/chihuahua/gov',
             "mintscan": 'https://www.mintscan.io/chihuahua/proposals',
@@ -89,7 +89,7 @@ chainAPIs = {
         '@StargazeZone'
         ],
     'kava': [
-        'https://api.data.kava.io/cosmos/gov/v1beta1/proposals',
+        'https://api.data.kava.io/cosmos/gov/v1/proposals',
         {
             "ping": 'https://ping.pub/kava/gov',
             "mintscan": 'https://www.mintscan.io/kava/proposals',
@@ -213,7 +213,7 @@ chainAPIs = {
         '@irisnetwork'
         ],
     "lum": [  
-        'https://node0.mainnet.lum.network/rest/cosmos/gov/v1beta1/proposals',
+        'https://node0.mainnet.lum.network/rest/cosmos/gov/v1/proposals',
         {
             "ping": 'https://ping.pub/lum-network/gov',
             "mintscan": 'https://www.mintscan.io/lum/proposals',
@@ -221,7 +221,7 @@ chainAPIs = {
         '@lum_network'
         ],
     "regen": [  
-        'https://regen.stakesystems.io/cosmos/gov/v1beta1/proposals',
+        'https://regen.stakesystems.io/cosmos/gov/v1/proposals',
         {
             "ping": 'https://ping.pub/regen/gov',
             "mintscan": 'https://www.mintscan.io/regen/proposals',
@@ -264,7 +264,7 @@ chainAPIs = {
         "@sifchain"
         ],
     "kuji": [  
-        'https://kujira-api.polkachu.com/cosmos/gov/v1beta1/proposals',
+        'https://kujira-api.polkachu.com/cosmos/gov/v1/proposals',
         {
             "ping": 'https://explorer.chaintools.tech/kujira/gov',
         },        
@@ -301,5 +301,15 @@ chainAPIs = {
             "keplr": 'https://wallet.keplr.app/chains/kyve/proposals',
         },        
         "@KYVENetwork"
-        ],
+    ],
+    "tia": [
+        'https://api.celestia.nodestake.top/cosmos/gov/v1beta1/proposals',
+        {
+            "ping": 'https://ping.pub/celestia/gov',
+            "mintscan": 'https://www.mintscan.io/celestia/proposals',
+            "keplr": 'https://wallet.keplr.app/chains/celestia/proposals',
+        },
+        "@CelestiaOrg"
+    ],
+
 }
