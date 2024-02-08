@@ -26,16 +26,10 @@ from ChainApis import chainAPIs, customExplorerLinks, DAOs
 
 # == Configuration ==
 
-# When true, will actually tweet / discord post
-IN_PRODUCTION = True
-TWITTER = False
-DISCORD = False
-DISCORD_THREADS_AND_REACTIONS = False
 # If false, it is up to you to schedule via crontab -e such as: */30 * * * * cd /root/twitterGovBot && python3 twitterGovernanceBot.py
 USE_PYTHON_RUNNABLE = False
 LOG_RUNS = False
 
-explorer = "keplr" # ping, mintscan, keplr
 
 USE_CUSTOM_LINKS = True
 if USE_CUSTOM_LINKS:
@@ -51,6 +45,12 @@ BOOSTED_DISCORD_THREAD_TIME_TIERS = {0: 1440,1: 4320,2: 10080,3: 10080}
 with open('secrets.json', 'r') as f:
     secrets = json.load(f)
 
+    IN_PRODUCTION = secrets.get('IN_PRODUCTION', True)
+    TWITTER = secrets['TWITTER']['ENABLED']
+    DISCORD = secrets['DISCORD']['ENABLED']
+    DISCORD_THREADS_AND_REACTIONS = secrets['DISCORD_THREADS']['ENABLE_THREADS_AND_REACTIONS']
+
+    explorer = secrets.get('EXPLORER_DEFAULT', "mintscan") # ping, mintscan, keplr
     TICKERS_TO_ANNOUNCE = secrets.get('TICKERS_TO_ANNOUNCE', [])
     TICKERS_TO_IGNORE = secrets.get('TICKERS_TO_IGNORE', [])
     # print(f"Ignoring: {TICKERS_TO_IGNORE}")
