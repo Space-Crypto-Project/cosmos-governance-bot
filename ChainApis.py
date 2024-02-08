@@ -35,13 +35,6 @@ DAOs = { # Juno DAO_DAO Chains here
 # Defined all info needed for given tickers. If only 1 explorer is found, that one will be used
 # no matter what explorer is defined in GovBot
 chainAPIs = {
-    "dig": [ 
-        'https://api-1-dig.notional.ventures/cosmos/gov/v1beta1/proposals',
-        {
-            "ping": 'https://ping.pub/dig/gov',
-        },
-        "@dig_chain"
-        ],
     'juno': [
         'https://juno.stakesystems.io/cosmos/gov/v1/proposals',
         {
