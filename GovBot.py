@@ -254,7 +254,7 @@ def getAllProposals(ticker) -> list:
             version = 'v1'
 
         if (FETCH_LAST_PROP): # if we want to fetch the last proposal (testing purposes)
-            PARAMS = {'pagination.limit': 1, 'pagination.reverse': 'true'}
+            PARAMS = {'pagination.limit': 2, 'pagination.reverse': 'true'}
         else:
             PARAMS = {'proposal_status': '2'} # 2 = voting period
 
@@ -473,7 +473,7 @@ if __name__ == "__main__":
     if TWITTER:
         print("TWITTER module enabled")
     if FETCH_LAST_PROP:
-        print("Fetching last proposal for each chain...")
+        print("Fetching last 2 proposals for each chain...")
     
 
     runChecks()

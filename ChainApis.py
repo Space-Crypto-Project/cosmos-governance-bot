@@ -303,13 +303,38 @@ chainAPIs = {
         "@KYVENetwork"
     ],
     "tia": [
-        'https://api.celestia.nodestake.top/cosmos/gov/v1beta1/proposals',
+        'https://api.lunaroasis.net/cosmos/gov/v1beta1/proposals',
         {
             "ping": 'https://ping.pub/celestia/gov',
             "mintscan": 'https://www.mintscan.io/celestia/proposals',
             "keplr": 'https://wallet.keplr.app/chains/celestia/proposals',
         },
         "@CelestiaOrg"
+    ],
+    "axl": [
+        'https://axelar-api.polkachu.com/cosmos/gov/v1beta1/proposals',
+        {
+            "ping": 'https://ping.pub/axelar/gov',
+            "mintscan": 'https://www.mintscan.io/axelar/proposals',
+            "keplr": 'https://wallet.keplr.app/chains/axelar/proposals',
+        },
+        "@AxelarNetwork"
+    ],
+    "dydx": [
+        'https://dydx-dao-api.polkachu.com/cosmos/gov/v1/proposals',
+        {
+            "ping": 'https://ping.pub/dydx/gov',
+            "mintscan": 'https://www.mintscan.io/dydx/proposals',
+            "keplr": 'https://wallet.keplr.app/chains/dydx/proposals',
+        },
+        "@dydxprotocol"
+    ],
+    "stake" : [
+        'https://noble-api.polkachu.com/cosmos/gov/v1beta1/proposals',
+        {
+            "ping": 'https://ping.pub/noble/gov',
+        },
+        "@stake_systems"
     ],
 
 }
