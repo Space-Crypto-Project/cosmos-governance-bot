@@ -327,14 +327,22 @@ chainAPIs = {
             "mintscan": 'https://www.mintscan.io/dydx/proposals',
             "keplr": 'https://wallet.keplr.app/chains/dydx/proposals',
         },
-        "@dydxprotocol"
+        ""
     ],
     "stake" : [
         'https://noble-api.polkachu.com/cosmos/gov/v1beta1/proposals',
         {
             "ping": 'https://ping.pub/noble/gov',
         },
-        "@stake_systems"
+        ""
+    ],
+    "zeta": [
+        'https://zetachain.blockpi.network/lcd/v1/public/cosmos/gov/v1/proposals',
+        {
+            "ping": 'https://ping.pub/zetachain/gov',
+        
+        },
+        ""
     ],
 
 }
