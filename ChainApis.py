@@ -400,4 +400,12 @@ chainAPIs = {
         },
         "@arkeonetwork"
     ],
+    "side_testnet": [
+        'https://side-testnet-api.spacestake.tech/cosmos/gov/v1/proposals',
+        {
+            "ping": 'https://explorer.spacestake.tech/side-testnet/gov',
+
+        },
+        "@SideProtocol"
+    ],
 }
