@@ -376,5 +376,13 @@ chainAPIs = {
         },
         "@lavanetxyz"
     ],
+    "entrypoint_testnet": [
+        'https://entrypoint-testnet-api.spacestake.tech/cosmos/gov/v1/proposals',
+        {
+            "ping": 'https://explorer.spacestake.tech/entrypoint-testnet/gov',
+
+        },
+        "@entrypointzone"
+    ],
 
 }
