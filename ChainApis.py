@@ -392,4 +392,12 @@ chainAPIs = {
         },
         "@artela_network"
     ],
+    "arkeo_testnet": [
+        'https://arkeo-testnet-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
+        {
+            "ping": 'https://explorer.spacestake.tech/arkeo-testnet/gov',
+
+        },
+        "@arkeonetwork"
+    ],
 }
