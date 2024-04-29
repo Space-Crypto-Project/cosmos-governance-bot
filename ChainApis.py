@@ -416,4 +416,13 @@ chainAPIs = {
         },
         "@elys_network"
     ],
+    # not implemented yet
+    "alignedlayer_testnet": [
+        'https://alignedlayer-testnet-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
+        {
+            "ping": 'https://explorer.spacestake.tech/alignedlayer-testnet/gov',
+
+        },
+        "@alignedlayer"
+    ],
 }
