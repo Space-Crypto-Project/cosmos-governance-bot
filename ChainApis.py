@@ -344,5 +344,13 @@ chainAPIs = {
         },
         ""
     ],
+    "warden_testnet": [
+        'https://warden-testnet-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
+        {
+            "ping": 'https://explorer.spacestake.tech/warden-testnet/gov',
+
+        },
+        ""
+    ],
 
 }
