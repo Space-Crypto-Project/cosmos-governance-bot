@@ -350,7 +350,15 @@ chainAPIs = {
             "ping": 'https://explorer.spacestake.tech/warden-testnet/gov',
 
         },
-        ""
+        "@wardenprotocol"
+    ],
+    "pryzm_testnet": [
+        'https://pryzm-testnet-api.spacestake.tech/cosmos/gov/v1/proposals',
+        {
+            "ping": 'https://explorer.spacestake.tech/pryzm-testnet/gov',
+
+        },
+        "@Pryzm_Zone"
     ],
 
 }
