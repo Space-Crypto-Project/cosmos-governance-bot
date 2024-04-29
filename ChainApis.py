@@ -360,5 +360,13 @@ chainAPIs = {
         },
         "@Pryzm_Zone"
     ],
+    "babylon_testnet": [
+        'https://babylon-testnet-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
+        {
+            "ping": 'https://explorer.spacestake.tech/babylon-testnet/gov',
+
+        },
+        "@babylon_chain"
+    ],
 
 }
