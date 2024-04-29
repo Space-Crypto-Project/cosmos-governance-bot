@@ -368,5 +368,13 @@ chainAPIs = {
         },
         "@babylon_chain"
     ],
+    "lava_testnet": [
+        'https://lava-testnet-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
+        {
+            "ping": 'https://explorer.spacestake.tech/lava-testnet/gov',
+
+        },
+        "@lavanetxyz"
+    ],
 
 }
