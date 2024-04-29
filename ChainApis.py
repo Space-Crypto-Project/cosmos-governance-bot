@@ -384,5 +384,12 @@ chainAPIs = {
         },
         "@entrypointzone"
     ],
+    "artela_testnet": [
+        'https://artela-testnet-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
+        {
+            "ping": 'https://explorer.spacestake.tech/artela-testnet/gov',
 
+        },
+        "@artela_network"
+    ],
 }
