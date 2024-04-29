@@ -408,4 +408,12 @@ chainAPIs = {
         },
         "@SideProtocol"
     ],
+    "elys_testnet": [
+        'https://elys-testnet-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
+        {
+            "ping": 'https://explorer.spacestake.tech/elys-testnet/gov',
+
+        },
+        "@elys_network"
+    ],
 }
