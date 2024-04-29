@@ -2,3 +2,6 @@
 logs.txt
 __pycache__
 secrets.json
+*chains.json
+chains.json
+
