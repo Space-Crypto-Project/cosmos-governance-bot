@@ -170,7 +170,7 @@ chainAPIs = {
         '@cryptocom'
         ],
     "evmos": [  
-        'https://rest.bd.evmos.org:1317/cosmos/gov/v1beta1/proposals',
+        'https://rest.bd.evmos.org:1317/cosmos/gov/v1/proposals',
         {
             "ping": 'https://explorer.spacestake.tech/evmos/gov',
             "mintscan": 'https://www.mintscan.io/evmos/proposals',
