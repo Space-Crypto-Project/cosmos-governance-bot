@@ -425,4 +425,12 @@ chainAPIs = {
         },
         "@alignedlayer"
     ],
+    "galactica_testnet": [
+        'https://galactica-testnet-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
+        {
+            "ping": 'https://explorer.spacestake.tech/galactica-testnet/gov',
+
+        },
+        "@GalacticaNet"
+    ],
 }
