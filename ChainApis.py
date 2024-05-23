@@ -457,4 +457,12 @@ chainAPIs = {
         },
         "@initiaFDN"
     ],
+    "airchains_testnet": [
+        'https://airchains-testnet-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
+        {
+            "ping": 'https://explorer.spacestake.tech/airchains-testnet/gov',
+
+        },
+        "@airchains_io"
+    ],
 }
