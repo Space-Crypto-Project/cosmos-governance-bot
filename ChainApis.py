@@ -450,7 +450,7 @@ chainAPIs = {
         "@kopi_money"
     ],
     "initia_testnet": [
-        'https://initia-testnet-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
+        'https://initia-testnet-api.spacestake.tech/cosmos/gov/v1/proposals',
         {
             "ping": 'https://explorer.spacestake.tech/initia-testnet/gov',
 
