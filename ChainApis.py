@@ -170,7 +170,7 @@ chainAPIs = {
         '@cryptocom'
         ],
     "evmos": [  
-        'https://rest.bd.evmos.org:1317/cosmos/gov/v1/proposals',
+        'https://evmos-api.polkachu.com/cosmos/gov/v1/proposals',
         {
             "ping": 'https://explorer.spacestake.tech/evmos/gov',
             "mintscan": 'https://www.mintscan.io/evmos/proposals',
@@ -432,5 +432,13 @@ chainAPIs = {
 
         },
         "@GalacticaNet"
+    ],
+    "Og_testnet": [
+        'https://og-testnet-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
+        {
+            "ping": 'https://explorer.spacestake.tech/og-testnet/gov',
+
+        },
+        "@0G_labs"
     ],
 }
