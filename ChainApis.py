@@ -466,11 +466,11 @@ chainAPIs = {
         "@airchains_io"
     ],
     "blockx": [
-    'https://blockx-mainnet-api.itrocket.net/cosmos/gov/v1beta1/proposals',
-    {
-        "ping": 'https://explorer.spacestake.tech/blockx/gov',
+        'https://blockx-mainnet-api.itrocket.net/cosmos/gov/v1beta1/proposals',
+        {
+            "ping": 'https://explorer.spacestake.tech/blockx/gov',
 
-    },
-    "@BlockXnet"
+        },
+        "@BlockXnet"
     ],
 }
