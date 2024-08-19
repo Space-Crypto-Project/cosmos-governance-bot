@@ -473,4 +473,12 @@ chainAPIs = {
         },
         "@BlockXnet"
     ],
+    "fiamma_testnet": [
+        'https://fiamma-testnet-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
+        {
+            "ping": 'https://explorer.spacestake.tech/fiamma-testnet/gov',
+
+        },
+        "@Fiamma_Chain"
+    ],
 }
