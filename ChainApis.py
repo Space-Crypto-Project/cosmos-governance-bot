@@ -465,4 +465,12 @@ chainAPIs = {
         },
         "@Fiamma_Chain"
     ],
+    "allora_testnet": [
+        'https://allora-testnet-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
+        {
+            "ping": 'https://explorer.spacestake.tech/allora-testnet/gov',
+
+        },
+        "@AlloraNetwork"
+    ],
 }
