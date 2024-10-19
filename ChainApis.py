@@ -473,4 +473,12 @@ chainAPIs = {
         },
         "@AlloraNetwork"
     ],
+    "empeiria_testnet": [
+        'https://empeiria-testnet-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
+        {
+            "ping": 'https://explorer.spacestake.tech/empeiria-testnet/gov',
+
+        },
+        "@empe_io"
+    ],
 }
