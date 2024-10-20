@@ -481,4 +481,12 @@ chainAPIs = {
         },
         "@empe_io"
     ],
+    "prysm_testnet": [
+        'https://prysm-testnet-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
+        {
+            "ping": 'https://explorer.spacestake.tech/prysm-testnet/gov',
+
+        },
+        "@PrysmNetwork"
+    ],
 }
