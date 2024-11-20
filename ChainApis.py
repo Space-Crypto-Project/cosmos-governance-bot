@@ -89,13 +89,13 @@ chainAPIs = {
         '@StargazeZone'
         ],
     'kava': [
-        'https://api.data.kava.io/cosmos/gov/v1/proposals',
+        'https://api.data.kava.io/cosmos/gov/v1beta1/proposals',
         {
             "ping": 'https://explorer.spacestake.tech/kava/gov',
             "mintscan": 'https://www.mintscan.io/kava/proposals',
             "keplr": 'https://wallet.keplr.app/chains/kava/proposals'
         },        
-        '@kava_platform'
+        '@KAVA_CHAIN'
         ],
     'like': [
         'https://mainnet-node.like.co/cosmos/gov/v1beta1/proposals',
