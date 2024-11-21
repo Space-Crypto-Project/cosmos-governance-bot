@@ -336,13 +336,13 @@ chainAPIs = {
         },
         ""
     ],
-    "zeta": [
+    "zetachain": [
         'https://zetachain.blockpi.network/lcd/v1/public/cosmos/gov/v1/proposals',
         {
             "ping": 'https://explorer.spacestake.tech/zetachain/gov',
-        
+            "mintscan": 'https://www.mintscan.io/zeta/proposals',
         },
-        ""
+        "@zetablockchain"
     ],
     "warden_testnet": [
         'https://warden-testnet-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
