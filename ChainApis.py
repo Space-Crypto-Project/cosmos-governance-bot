@@ -425,7 +425,15 @@ chainAPIs = {
         },
         "@0G_labs"
     ]
-    ,"kopi_testnet": [
+    ,
+    "kopi": [
+        'https://rest.kopi.money/cosmos/gov/v1beta1/proposals',
+        {
+            "ping": 'https://explorer.spacestake.tech/kopi/gov',
+        },
+        "@kopi_money"
+    ],
+    "kopi_testnet": [
         'https://kopi-testnet-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
         {
             "ping": 'https://explorer.spacestake.tech/kopi-testnet/gov',
