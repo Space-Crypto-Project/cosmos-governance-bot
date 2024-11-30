@@ -497,4 +497,12 @@ chainAPIs = {
         },
         "@PrysmNetwork"
     ],
+    "zenrock_testnet": [
+        'https://zenrock-testnet-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
+        {
+            "ping": 'https://explorer.spacestake.tech/zenrock-testnet/gov',
+
+        },
+        "@OfficialZenrock"
+    ],
 }
