@@ -263,8 +263,12 @@ def getAllProposals(ticker) -> list:
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36'}, 
             params=PARAMS) 
         
-        # print(response.url)
-        props = response.json()['proposals']
+        response_json = response.json()
+        #print(response_json)
+        if 'code' in response_json:
+            print(f"Error fetching proposals for {ticker}: {response_json['message']}")
+        else:
+            props = response_json['proposals']
     except Exception as e:
         print(f"Issue with request to {ticker}: {e}")
     return props
