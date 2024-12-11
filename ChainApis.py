@@ -369,7 +369,7 @@ chainAPIs = {
         "@lavanetxyz"
     ],
     "artela_testnet": [
-        'https://artela-testnet-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
+        'https://artela-testnet-api.spacestake.tech/cosmos/gov/v1/proposals',
         {
             "ping": 'https://explorer.spacestake.tech/artela-testnet/gov',
 
@@ -393,24 +393,15 @@ chainAPIs = {
         "@SideProtocol"
     ],
     "elys_testnet": [
-        'https://elys-testnet-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
+        'https://elys-testnet-api.spacestake.tech/cosmos/gov/v1/proposals',
         {
             "ping": 'https://explorer.spacestake.tech/elys-testnet/gov',
 
         },
         "@elys_network"
     ],
-    # not implemented yet
-    "alignedlayer_testnet": [
-        'https://alignedlayer-testnet-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
-        {
-            "ping": 'https://explorer.spacestake.tech/alignedlayer-testnet/gov',
-
-        },
-        "@alignedlayer"
-    ],
     "galactica_testnet": [
-        'https://galactica-testnet-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
+        'https://galactica-testnet-api.spacestake.tech/cosmos/gov/v1/proposals',
         {
             "ping": 'https://explorer.spacestake.tech/galactica-testnet/gov',
 
@@ -427,7 +418,7 @@ chainAPIs = {
     ]
     ,
     "kopi": [
-        'https://rest.kopi.money/cosmos/gov/v1beta1/proposals',
+        'https://rest.kopi.money/cosmos/gov/v1/proposals',
         {
             "ping": 'https://explorer.spacestake.tech/kopi/gov',
         },
@@ -490,7 +481,7 @@ chainAPIs = {
         "@empe_io"
     ],
     "prysm_testnet": [
-        'https://prysm-testnet-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
+        'https://prysm-testnet-api.spacestake.tech/cosmos/gov/v1/proposals',
         {
             "ping": 'https://explorer.spacestake.tech/prysm-testnet/gov',
 
