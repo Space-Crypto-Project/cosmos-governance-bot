@@ -1,12 +1,17 @@
 #!/usr/bin/python3
 
 '''
-Reece Williams (Reecepbcups | PBCUPS Validator) | February 9th, 2022
+SpaceStake | January 3th, 2025
 - Twitter bot to monitor and report on COSMOS governance proposals
-- (Mar 8) Discord webhook to post proposals 
-- (Mar 12) Discord Threads to allow for discussion of new proposals 
+- Discord webhook to post proposals 
+- Discord Threads to allow for discussion of new proposals 
+- Email notifications for new proposals
 
-python3 -m pip install requests tweepy schedule discord
+Instructions:
+- Install Python 3.8+
+- Install requirements:
+    pip install -r requirements.txt
+
 
 *Get REST lcd's in chain.json from https://github.com/cosmos/chain-registry
 '''
@@ -19,6 +24,9 @@ import requests
 import schedule
 import time
 import tweepy
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 from discord import Webhook, RequestsWebhookAdapter
 
@@ -49,6 +57,7 @@ with open('secrets.json', 'r') as f:
     FETCH_LAST_PROP = secrets.get('FETCH_LAST_PROP', False)
     TWITTER = secrets['TWITTER']['ENABLED']
     DISCORD = secrets['DISCORD']['ENABLED']
+    EMAIL_ENABLED = secrets['EMAIL']['ENABLED']
     DISCORD_THREADS_AND_REACTIONS = secrets['DISCORD_THREADS']['ENABLE_THREADS_AND_REACTIONS']
 
     explorer = secrets.get('EXPLORER_DEFAULT', "mintscan") # ping, mintscan, keplr
@@ -89,6 +98,17 @@ with open('secrets.json', 'r') as f:
                 "Content-Type": "application/json",
                 "authorization": "Bot " + BOT_TOKEN,    
             }
+    
+    if EMAIL_ENABLED:
+        emailSecrets = secrets['EMAIL']
+        SSL = emailSecrets['SSL']
+        EMAIL_HOST = emailSecrets['HOST']
+        EMAIL_PORT = emailSecrets['PORT']
+        EMAIL_USERNAME = emailSecrets['USERNAME']
+        EMAIL_PASSWORD = emailSecrets['PASSWORD']
+        EMAIL_FROM = emailSecrets['FROM']
+        EMAIL_TO = emailSecrets['TO']
+        EMAIL_FETCHING_ERROR_NOTIFICATION = emailSecrets['FETCHING_ERROR_NOTIFICATION'] # Send email if proposals fetching error occurs
 
 # Loads normal proposals (ticker -> id) dict
 def load_proposals_from_file() -> dict:
@@ -177,6 +197,31 @@ def discord_add_reacts(message_id): # needs READ_MESSAGE_HISTORY & ADD_REACTIONS
             print(r.text)
         time.sleep(REACTION_RATE_LIMIT) # rate limit
 
+def send_email(subject, body):
+    if not EMAIL_ENABLED:
+        return
+
+    msg = MIMEMultipart()
+    msg['From'] = EMAIL_FROM
+    msg['To'] = EMAIL_TO
+    msg['Subject'] = subject
+
+    msg.attach(MIMEText(body, 'plain'))
+
+    try:
+        if SSL:
+            server = smtplib.SMTP_SSL(EMAIL_HOST, EMAIL_PORT)
+        else:
+            server = smtplib.SMTP(EMAIL_HOST, EMAIL_PORT)
+            server.starttls()
+        server.login(EMAIL_USERNAME, EMAIL_PASSWORD)
+        text = msg.as_string()
+        server.sendmail(EMAIL_FROM, EMAIL_TO, text)
+        server.quit()
+        print("Email sent successfully")
+    except Exception as e:
+        print(f"Failed to send email: {e}")
+
 def get_explorer_link(ticker, propId):
     if ticker in customLinks:
         return f"{customLinks[ticker]}/{propId}"
@@ -232,8 +277,12 @@ def post_update(ticker, propID, title, description="", isDAO=False, DAOVoteLink=
                     pass
             except Exception as err:
                 print("Discord post failed: " + str(err))
+        if EMAIL_ENABLED:
+            try:
+                send_email(f"New Proposal for {ticker}", message)
+            except Exception as err:
+                print("Email notification failed: " + str(err))
       
-    
     
 def getAllProposals(ticker) -> list:
     # Makes request to API & gets JSON reply in form of a list
@@ -266,11 +315,18 @@ def getAllProposals(ticker) -> list:
         response_json = response.json()
         #print(response_json)
         if 'code' in response_json:
-            print(f"Error fetching proposals for {ticker}: {response_json['message']}")
+            error = f"Error fetching proposals for {ticker}: {response_json['message']}"
+            print(error)
+            if EMAIL_FETCHING_ERROR_NOTIFICATION:
+                send_email(f"Error fetching proposals for {ticker}", error)
         else:
             props = response_json['proposals']
     except Exception as e:
-        print(f"Issue with request to {ticker}: {e}")
+        error = f"Issue with request to {ticker}: {e}"
+        print(error)
+        if EMAIL_FETCHING_ERROR_NOTIFICATION:
+            send_email(f"Error fetching proposals for {ticker}", error)
+
     return props
 
 def checkIfNewerDAOProposalIsOut(daoTicker):
