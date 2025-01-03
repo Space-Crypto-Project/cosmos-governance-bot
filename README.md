@@ -1,5 +1,5 @@
 # CosmosGovernanceProposalBot
-A twitter + discord webhook bot to notify users of governance proposals when in voting period<br/>
+A twitter + discord + email webhook bot to notify users of governance proposals when in voting period<br/>
 
 ## Installation Guide
 https://envy-cosmos.neocities.org/post/deploying-a-discord-governance-bot/
@@ -32,6 +32,7 @@ DIG, DVPN, KAVA, LIKE, XPRT, BCNA, BITSONG, BOSTROM, CHEQD, PB, SIF, UMEE, Starn
 IN_PRODUCTION<br>
 DISCORD<br>
 TWITTER<br>
+EMAIL<br>
 
 USE_PYTHON_RUNNABLE 
 *if true, run the script in a screen such as `screen -S bot python3 GovBot.py`*<br>
