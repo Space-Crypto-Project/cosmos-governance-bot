@@ -89,7 +89,7 @@ with open('secrets.json', 'r') as f:
 
         if DISCORD_THREADS_AND_REACTIONS:
             discTreads = secrets['DISCORD_THREADS']
-            CHANNEL_ID = int(discTreads['CHANNEL_ID'])
+            CHANNEL_ID = int(discTreads['CHANNEL_ID'][0])
             GUILD_ID = int(discTreads['GUILD-SERVER_ID'])
             DO_ARCHIVE_THREADS = bool(discTreads['ARCHIVE_THREADS'])
             THREAD_ARCHIVE_MINUTES = int(discTreads['THREAD_ARCHIVE_MINUTES'])
