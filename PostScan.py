@@ -118,7 +118,7 @@ with open('secrets.json', 'r') as f:
                 # Check for keywords in messages
                 keywords = POST_KEYWORDS
                 now = datetime.now(timezone.utc)
-                x_hours_ago = now - timedelta(hours=24*30)
+                x_hours_ago = now - timedelta(hours=4)
 
                 for message in messages:
                     # Ensure message.created_at is timezone-aware
