@@ -283,7 +283,22 @@ def post_update(ticker, propID, title, description="", isDAO=False, DAOVoteLink=
             except Exception as err:
                 print("Email notification failed: " + str(err))
       
-    
+# Initialize a dictionary to keep track of consecutive failures for each ticker
+# Load failure counter from JSON file
+def load_failure_counter():
+    try:
+        with open('errors.json', 'r') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return {}
+
+# Save failure counter to JSON file
+def save_failure_counter(counter):
+    with open('errors.json', 'w') as f:
+        json.dump(counter, f)
+
+failure_counter = load_failure_counter()
+
 def getAllProposals(ticker) -> list:
     # Makes request to API & gets JSON reply in form of a list
     props = []
@@ -317,16 +332,44 @@ def getAllProposals(ticker) -> list:
         if 'code' in response_json:
             error = f"Error fetching proposals for {ticker}: {response_json['message']}"
             print(error)
-            if EMAIL_FETCHING_ERROR_NOTIFICATION:
-                send_email(f"Error fetching proposals for {ticker}", error)
+
+            # Increment the failure counter for the ticker
+            if ticker in failure_counter:
+                failure_counter[ticker] += 1
+            else:
+                failure_counter[ticker] = 1
+
+            # If the failure counter reaches 3, send an email notification
+            if failure_counter[ticker] >= 3:
+                if EMAIL_FETCHING_ERROR_NOTIFICATION:
+                    send_email(f"Error fetching proposals for {ticker}", error)
+                # Reset the counter after sending the email
+                failure_counter[ticker] = 0
+
+            # Save the updated failure counter to the JSON file
+            save_failure_counter(failure_counter)
         else:
+            # Reset the failure counter on successful fetch
+            failure_counter[ticker] = 0
             props = response_json['proposals']
+                        
+            save_failure_counter(failure_counter)
     except Exception as e:
         error = f"Issue with request to {ticker}: {e}"
         print(error)
-        if EMAIL_FETCHING_ERROR_NOTIFICATION:
-            send_email(f"Error fetching proposals for {ticker}", error)
 
+        # Increment the failure counter for the ticker
+        if ticker in failure_counter:
+            failure_counter[ticker] += 1
+        else:
+            failure_counter[ticker] = 1
+
+        if failure_counter[ticker] >= 3:    
+            if EMAIL_FETCHING_ERROR_NOTIFICATION:
+                send_email(f"Error fetching proposals for {ticker}", error)
+            failure_counter[ticker] = 0
+
+        save_failure_counter(failure_counter)
     return props
 
 def checkIfNewerDAOProposalIsOut(daoTicker):
