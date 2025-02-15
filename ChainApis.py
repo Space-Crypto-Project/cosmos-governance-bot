@@ -418,7 +418,7 @@ chainAPIs = {
     ]
     ,
     "kopi": [
-        'https://rest.kopi.money/cosmos/gov/v1/proposals',
+        'https://kopi-api.spacestake.tech/cosmos/gov/v1/proposals',
         {
             "ping": 'https://explorer.spacestake.tech/kopi/gov',
         },
