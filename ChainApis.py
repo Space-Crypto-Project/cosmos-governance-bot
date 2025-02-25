@@ -497,11 +497,19 @@ chainAPIs = {
         "@OfficialZenrock"
     ],
     "tellor_testnet": [
-    'https://tellor-testnet-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
-    {
-        "ping": 'https://explorer.spacestake.tech/tellor-testnet/gov',
+        'https://tellor-testnet-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
+        {
+            "ping": 'https://explorer.spacestake.tech/tellor-testnet/gov',
 
-    },
-    "@wearetellor"
+        },
+        "@wearetellor"
+    ],
+    "atomone_testnet": [
+        'https://atomone-testnet-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
+        {
+            "ping": 'https://explorer.spacestake.tech/atomone-testnet/gov',
+
+        },
+        "@_atomone"
     ],
 }
