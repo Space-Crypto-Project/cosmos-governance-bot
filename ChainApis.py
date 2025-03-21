@@ -321,13 +321,13 @@ chainAPIs = {
         "@AxelarNetwork"
     ],
     "dydx": [
-        'https://dydx-dao-api.polkachu.com/cosmos/gov/v1/proposals',
+        'https://dydx-api.spacestake.tech/cosmos/gov/v1/proposals',
         {
             "ping": 'https://explorer.spacestake.tech/dydx/gov',
             "mintscan": 'https://www.mintscan.io/dydx/proposals',
             "keplr": 'https://wallet.keplr.app/chains/dydx/proposals',
         },
-        ""
+        "@dYdX"
     ],
     "stake" : [
         'https://noble-api.polkachu.com/cosmos/gov/v1beta1/proposals',
