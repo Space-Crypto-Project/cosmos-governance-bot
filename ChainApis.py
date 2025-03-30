@@ -79,7 +79,7 @@ chainAPIs = {
         },
         '@akashnet_'
         ],
-    'stars': [
+    'stargaze': [
         "https://rest.stargaze-apis.com/cosmos/gov/v1beta1/proposals",
         {
             "ping": 'https://explorer.spacestake.tech/stargaze/gov',
