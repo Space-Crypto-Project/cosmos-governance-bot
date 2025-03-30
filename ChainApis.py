@@ -61,7 +61,7 @@ chainAPIs = {
         },
         '@osmosiszone'
         ],
-    'atom': [
+    'cosmos': [
         'https://lcd-cosmoshub.keplr.app/cosmos/gov/v1beta1/proposals',
         {
             "ping": 'https://explorer.spacestake.tech/cosmos/gov',
