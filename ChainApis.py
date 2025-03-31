@@ -520,4 +520,12 @@ chainAPIs = {
         },
         "@KiiChainio"
     ],
+    "axone_testnet": [
+        'https://axone-testnet-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
+        {
+            "ping": 'https://explorer.spacestake.tech/axone-testnet/gov',
+
+        },
+        "@axonexyz"
+    ],
 }
