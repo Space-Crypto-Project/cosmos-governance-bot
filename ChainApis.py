@@ -512,4 +512,12 @@ chainAPIs = {
         },
         "@_atomone"
     ],
+    "kiichain_testnet": [
+        'https://kiichain-testnet-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
+        {
+            "ping": 'https://explorer.spacestake.tech/kiichain-testnet/gov',
+
+        },
+        "@KiiChainio"
+    ],
 }
