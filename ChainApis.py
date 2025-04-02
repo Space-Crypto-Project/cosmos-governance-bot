@@ -39,7 +39,6 @@ chainAPIs = {
         'https://juno.stakesystems.io/cosmos/gov/v1/proposals',
         {
             "ping": 'https://explorer.spacestake.tech/juno/gov',
-            "mintscan": 'https://www.mintscan.io/juno/proposals',
             "keplr": 'https://wallet.keplr.app/chains/juno/proposals'
         },
         "@JunoNetwork"
@@ -297,7 +296,6 @@ chainAPIs = {
         'https://kyve-api.polkachu.com/cosmos/gov/v1/proposals',
         {
             "ping": 'https://explorer.spacestake.tech/kyve/gov',
-            "mintscan": 'https://www.mintscan.io/kyve/proposals',
             "keplr": 'https://wallet.keplr.app/chains/kyve/proposals',
         },        
         "@KYVENetwork"
