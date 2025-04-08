@@ -36,7 +36,7 @@ DAOs = { # Juno DAO_DAO Chains here
 # no matter what explorer is defined in GovBot
 chainAPIs = {
     'juno': [
-        'https://juno.stakesystems.io/cosmos/gov/v1/proposals',
+        'https://juno-api.spacestake.tech/cosmos/gov/v1/proposals',
         {
             "ping": 'https://explorer.spacestake.tech/juno/gov',
             "keplr": 'https://wallet.keplr.app/chains/juno/proposals'
@@ -61,7 +61,7 @@ chainAPIs = {
         '@osmosiszone'
         ],
     'cosmos': [
-        'https://lcd-cosmoshub.keplr.app/cosmos/gov/v1beta1/proposals',
+        'https://cosmos-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
         {
             "ping": 'https://explorer.spacestake.tech/cosmos/gov',
             "mintscan": 'https://www.mintscan.io/cosmos/proposals',
