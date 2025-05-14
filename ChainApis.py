@@ -203,7 +203,7 @@ chainAPIs = {
         '@InjectiveLabs'
         ],
     "iris": [  
-        'https://lcd-iris.keplr.app/cosmos/gov/v1/proposals',
+        'https://iris-api.spacestake.tech/cosmos/gov/v1/proposals',
         {
             "ping": 'https://explorer.spacestake.tech/iris-network/gov',
             "mintscan": 'https://www.mintscan.io/iris/proposals',
