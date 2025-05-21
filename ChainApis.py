@@ -398,6 +398,13 @@ chainAPIs = {
         },
         "@elys_network"
     ],
+    "elys": [
+        'https://elys-api.polkachu.com/cosmos/gov/v1/proposals',
+        {
+            "ping": 'https://explorer.spacestake.tech/elys/gov',
+        },
+        "@elys_network"
+    ],
     "galactica_testnet": [
         'https://galactica-testnet-api.spacestake.tech/cosmos/gov/v1/proposals',
         {

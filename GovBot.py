@@ -11,6 +11,8 @@ Instructions:
 - Install Python 3.8+
 - Install requirements:
     pip install -r requirements.txt
+- Execute the script:
+    python3 GovBot.py
 
 
 *Get REST lcd's in chain.json from https://github.com/cosmos/chain-registry
@@ -28,7 +30,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-from discord import Webhook, RequestsWebhookAdapter
+from discord import SyncWebhook
 
 from ChainApis import chainAPIs, customExplorerLinks, DAOs
 
@@ -181,11 +183,18 @@ def discord_post_to_channel(ticker, propID, title, description, voteLink):
     if len(description) > 4096:
         description = description[:4090] + "....."
 
-    embed = discord.Embed(title=f"${str(ticker).upper()} #{propID} | {title}", description=description, timestamp=datetime.datetime.utcnow(), color=HEX_COLOR) #color=discord.Color.dark_gold()
+    embed = discord.Embed(
+            title=f"${str(ticker).upper()} #{propID} | {title}",
+            description=description,
+            timestamp=datetime.datetime.now(datetime.timezone.utc),
+            color=HEX_COLOR
+    )
     embed.add_field(name="Link", value=f"{voteLink}")
     embed.set_thumbnail(url=AVATAR_URL)
-    webhook = Webhook.from_url(WEBHOOK_URL, adapter=RequestsWebhookAdapter()) # Initializing webhook
-    webhook.send(username=USERNAME,embed=embed) # Executing webhook
+
+    # Use SyncWebhook for sending messages
+    webhook = SyncWebhook.from_url(WEBHOOK_URL)
+    webhook.send(username=USERNAME, embed=embed)
 
 def discord_add_reacts(message_id): # needs READ_MESSAGE_HISTORY & ADD_REACTIONS
     # https://discord.com/developers/docs/resources/channel#create-reaction
@@ -241,12 +250,12 @@ def get_explorer_link(ticker, propId):
     return f"{chainAPIs[ticker][1][explorerToUse]}/{propId}"
 
 # This is so messy, make this more OOP related
-def post_update(ticker, propID, title, description="", isDAO=False, DAOVoteLink=""):
+def post_update(ticker, propID, title, description="", cosmovisor_folder="not-defined", isDAO=False, DAOVoteLink=""):
     chainExploreLink = DAOVoteLink
     if isDAO == False:
         chainExploreLink = get_explorer_link(ticker, propID)
 
-    message = f"${str(ticker).upper()} | Proposal #{propID} | VOTING | {title} | {chainExploreLink}"
+    message = f"${str(ticker).upper()} | Proposal #{propID} | Cosmovisor Folder: '{cosmovisor_folder}' | VOTING | {title} | {chainExploreLink}"
     twitterAt = ""
 
     if isDAO == True:
@@ -269,6 +278,9 @@ def post_update(ticker, propID, title, description="", isDAO=False, DAOVoteLink=
                 print("Tweet failed due to being duplicate OR " + str(err)) 
         if DISCORD:
             try:
+                # Add cosmosvisor folder to description if it is not "not-defined"
+                if cosmovisor_folder != "not-defined":
+                    description = description + f" Cosmovisor folder: {cosmovisor_folder}\n"
                 discord_post_to_channel(ticker, propID, title, description, chainExploreLink)
                 if DISCORD_THREADS_AND_REACTIONS:
                     # Threads must be enabled for reacts bc bot token
@@ -410,6 +422,7 @@ def checkIfNewerDAOProposalIsOut(daoTicker):
                 propID=current_prop_id, 
                 title=proposal_title, 
                 description=f"from {proposer}", # for discord embeds
+                cosmovisor_folder="not-defined", # for discord embeds
                 isDAO=True,
                 DAOVoteLink=f"{token['vote']}/{current_prop_id}" # https://www.rawdao.zone/vote/#
             )
@@ -461,12 +474,25 @@ def checkIfNewestProposalIDIsGreaterThanLastTweet(ticker):
 
             title = ""
             description = ""
+            cosmovisor_folder = "not-defined" # default value
 
             if version == 'v1':
                 if 'messages' in prop and len(prop['messages']) > 0:
                     if 'content' in prop['messages'][0]:
                         title = prop['messages'][0]['content'].get('title', "")
                         description = prop['messages'][0]['content'].get('description', "")
+                    # Check for MsgSoftwareUpgrade directly in messages
+                    if '@type' in prop['messages'][0] and prop['messages'][0]['@type'] == '/cosmos.upgrade.v1beta1.MsgSoftwareUpgrade':
+                        # Extract cosmovisor folder from the plan name
+                        if 'plan' in prop['messages'][0] and 'name' in prop['messages'][0]['plan']:
+                            title = prop['title']
+                            description = prop['summary']
+                            cosmovisor_folder = prop['messages'][0]['plan']['name']
+                            print(f"Found upgrade plan: {cosmovisor_folder}")
+
+                            description += f" Upgrade scheduled at height {prop['messages'][0]['plan'].get('height', 'unknown')}."
+                        else:
+                            cosmovisor_folder = "not-defined"
                     if 'title' in prop and 'summary' in prop and title == "" and description == "": 
                         title = prop['title']
                         description = prop['summary']
@@ -482,18 +508,40 @@ def checkIfNewestProposalIDIsGreaterThanLastTweet(ticker):
 
             elif version == 'v1beta':
                 try:
-                    title = prop['content']['title']
-                    description = prop['content']['description']
+                    # Extract title and description
+                    if 'content' in prop:
+                        content = prop['content']
+                        if '@type' in content and content['@type'] == '/cosmos.upgrade.v1beta1.MsgSoftwareUpgrade':
+                            # Use the plan name as the title if it's a software upgrade proposal
+                            if 'plan' in content and 'name' in content['plan']:
+                                title = content.get('title', f"Proposal #{current_prop_id}")
+                                description = content.get('description', f"Upgrade scheduled at height {content['plan'].get('height', 'unknown')}.")
+                                cosmovisor_folder = content['plan']['name']  # Set cosmovisor_folder here
+                            else:
+                                title = content.get('title', f"Proposal #{current_prop_id}")
+                                description = content.get('description', f"Upgrade scheduled at height {content['plan'].get('height', 'unknown')}.")
+                                cosmovisor_folder = "not-defined"
+                        else:
+                            title = content.get('title', f"Proposal #{current_prop_id}")
+                            description = content.get('description', f"Upgrade scheduled at height {content['plan'].get('height', 'unknown')}.")
+                            cosmovisor_folder = "not-defined"
+                    else:
+                        title = f"Proposal #{current_prop_id}"
+                        description = "No description available."
+                        cosmovisor_folder = "not-defined"
                 except KeyError:
                     print(f"Title and description not found for proposal #{current_prop_id}. Try to change the LCD endpoint for {ticker} from 'v1beta1' to 'v1'")
                     title = f"Proposal #{current_prop_id}"
                     description = f"No title and description found. Try to change the Bot LCD endpoint for {ticker} from 'v1beta1' to 'v1'"
+                    cosmovisor_folder = "not-defined"  # Fallback if no plan name is found
+
             
             post_update(
                 ticker=ticker,
                 propID=current_prop_id, 
                 title=title, 
                 description=description, # for discord embeds
+                cosmovisor_folder=cosmovisor_folder
             )
 
 def logRun():
