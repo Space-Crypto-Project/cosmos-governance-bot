@@ -14,7 +14,7 @@ Instructions:
 - Execute the script:
     python3 GovBot.py
     or
-    python GovBot
+    python GovBot.py
 
 
 *Get REST lcd's in chain.json from https://github.com/cosmos/chain-registry
