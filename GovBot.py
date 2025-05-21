@@ -13,6 +13,8 @@ Instructions:
     pip install -r requirements.txt
 - Execute the script:
     python3 GovBot.py
+    or
+    python GovBot
 
 
 *Get REST lcd's in chain.json from https://github.com/cosmos/chain-registry
