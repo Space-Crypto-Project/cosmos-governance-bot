@@ -8,7 +8,7 @@ SpaceStake | January 3th, 2025
 - Email notifications for new proposals
 
 Instructions:
-- Install Python 3.8+
+- Install Python 3.10+
 - Install requirements:
     pip install -r requirements.txt
 - Execute the script:
