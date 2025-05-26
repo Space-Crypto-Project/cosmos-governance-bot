@@ -1,5 +1,7 @@
 # exec:
 # python3 PostScan.py
+# or
+# python PostScan.py
 
 import json
 import tweepy
@@ -20,7 +22,6 @@ with open('secrets.json', 'r') as f:
     TWITTER_SCAN = secrets['TWITTER']['ENABLE_POST_SCAN']
     DISCORD_SCAN = secrets['DISCORD_THREADS']['ENABLE_POST_SCAN']
     POST_NOTIFICATION = secrets['EMAIL']['POST_NOTIFICATION']
-
 
     if TWITTER_SCAN:
         # Twitter API credentials
@@ -73,8 +74,63 @@ with open('secrets.json', 'r') as f:
         SSL = secrets['EMAIL']['SSL']
 
         intents = discord.Intents.default()
+        intents.message_content = True  # Required for message content access in discord.py>=2.0
         intents.messages = True  # Enable message-related events
-        client = discord.Client(intents=intents)
+
+        class PostScanBot(discord.Client):
+            def __init__(self, *, intents: discord.Intents):
+                super().__init__(intents=intents)
+
+            async def on_ready(self):
+                print(f'Logged in as {self.user} (ID: {self.user.id})')
+                await self.scan_channels()
+                await self.close()
+
+            async def scan_channel(self, channel_id):
+                # Get the channel
+                channel = self.get_channel(channel_id)
+                if channel is None:
+                    print(f"Channel with ID {channel_id} not found.")
+                    return
+
+                try:
+                    # Fetch the last 100 messages
+                    messages = [message async for message in channel.history(limit=100)]
+                    print(f"Fetched {len(messages)} messages from channel {channel.name}.")
+
+                    # Check for keywords in messages
+                    keywords = POST_KEYWORDS
+                    now = datetime.now(timezone.utc)
+                    x_hours_ago = now - timedelta(hours=4)
+
+                    for message in messages:
+                        # Ensure message.created_at is timezone-aware
+                        message_time = message.created_at.replace(tzinfo=timezone.utc)
+                        # Skip messages older than X hours
+                        if message_time < x_hours_ago:
+                            continue
+
+                        if any(keyword in message.content.lower() for keyword in keywords):
+                            # show which keyword was found    
+                            for keyword in keywords:
+                                if keyword in message.content.lower():
+                                    print(f"Keyword '{keyword}' found in message by {message.author} - {message.created_at}")
+                                    if POST_NOTIFICATION:
+                                        subject = f"Keyword '{keyword}' found in Discord message"
+                                        body = (f"Keyword '{keyword}' found in message by {message.author}:\n\n"
+                                                f"Date: {message.created_at}\n"
+                                                f"Content: {message.content}")
+                                        send_email(subject, body)
+                        # else:
+                            # print(f"No keywords found in message by {message.author}: {message.content}")
+                except discord.Forbidden:
+                    print("Bot lacks permissions to read messages in the channel.")
+                except Exception as e:
+                    print(f"Error while fetching messages: {e}")
+
+            async def scan_channels(self):
+                tasks = [self.scan_channel(channel_id) for channel_id in CHANNEL_IDS]
+                await asyncio.gather(*tasks)
 
         def send_email(subject, body):
             if not EMAIL_ENABLED:
@@ -101,57 +157,6 @@ with open('secrets.json', 'r') as f:
             except Exception as e:
                 print(f"Failed to send email: {e}")
 
-        async def scan_channel(channel_id):
-            await client.wait_until_ready()
-
-            # Get the channel
-            channel = client.get_channel(channel_id)
-            if channel is None:
-                print(f"Channel with ID {channel_id} not found.")
-                return
-
-            try:
-                # Fetch the last 100 messages
-                messages = await channel.history(limit=100).flatten()
-                print(f"Fetched {len(messages)} messages from channel {channel.name}.")
-
-                # Check for keywords in messages
-                keywords = POST_KEYWORDS
-                now = datetime.now(timezone.utc)
-                x_hours_ago = now - timedelta(hours=4)
-
-                for message in messages:
-                    # Ensure message.created_at is timezone-aware
-                    message_time = message.created_at.replace(tzinfo=timezone.utc)
-                    # Skip messages older than X hours
-                    if message_time < x_hours_ago:
-                        continue
-
-                    if any(keyword in message.content.lower() for keyword in keywords):
-                        # show which keyword was found    
-                        for keyword in keywords:
-                            if keyword in message.content.lower():
-                                print(f"Keyword '{keyword}' found in message by {message.author} - {message.created_at}")
-                                if POST_NOTIFICATION:
-                                    subject = f"Keyword '{keyword}' found in Discord message"
-                                    body = (f"Keyword '{keyword}' found in message by {message.author}:\n\n"
-                                            f"Date: {message.created_at}\n"
-                                            f"Content: {message.content}")
-                                    send_email(subject, body)
-                    # else:
-                        # print(f"No keywords found in message by {message.author}: {message.content}")
-            except discord.Forbidden:
-                print("Bot lacks permissions to read messages in the channel.")
-            except Exception as e:
-                print(f"Error while fetching messages: {e}")
-
-        async def scan_channels():
-            await client.wait_until_ready()
-            tasks = [scan_channel(channel_id) for channel_id in CHANNEL_IDS]
-            await asyncio.gather(*tasks)
-            await client.close()
-
         # Run the Discord bot
-        loop = asyncio.get_event_loop()
-        loop.create_task(scan_channels())
+        client = PostScanBot(intents=intents)
         client.run(DISCORD_TOKEN)
