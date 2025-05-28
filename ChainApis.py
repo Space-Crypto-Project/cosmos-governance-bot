@@ -430,7 +430,7 @@ chainAPIs = {
         "@kopi_money"
     ],
     "kopi_testnet": [
-        'https://kopi-testnet-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
+        'https://kopi-testnet-api.spacestake.tech/cosmos/gov/v1/proposals',
         {
             "ping": 'https://explorer.spacestake.tech/kopi-testnet/gov',
 
