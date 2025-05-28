@@ -445,6 +445,14 @@ chainAPIs = {
         },
         "@initiaFDN"
     ],
+    "initia": [
+        'https://initia-api.polkachu.com/cosmos/gov/v1/proposals',
+        {
+            "ping": 'https://explorer.spacestake.tech/initia/gov',
+
+        },
+        "@initiaFDN"
+    ],
     "airchains_testnet": [
         'https://airchains-testnet-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
         {
