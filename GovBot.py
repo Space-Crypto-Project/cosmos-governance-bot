@@ -375,8 +375,14 @@ def getAllProposalsIndividually(ticker) -> list:
                     current_check_id += 1
                     continue
                 else:
-                    print(f"Error fetching proposal #{current_check_id} for {ticker}: {response_json['message']}")
-                    break
+                    if "encoding" in error_message or "decode" in error_message or "unicode" in error_message:
+                        print(f"Encoding error for proposal #{current_check_id} for {ticker}: {response_json['message']}, continuing to next proposal")
+                        current_check_id += 1
+                        # Don't increment consecutive_not_found for encoding errors
+                        continue
+                    else:
+                        print(f"Error fetching proposal #{current_check_id} for {ticker}: {response_json['message']}")
+                        break
             
             # Reset consecutive not found counter since we found a proposal
             consecutive_not_found = 0
@@ -410,16 +416,9 @@ def getAllProposalsIndividually(ticker) -> list:
             current_check_id += 1
             
         except Exception as e:
-            error_message = str(e).lower()
-            if "encoding" in error_message or "decode" in error_message or "unicode" in error_message:
-                print(f"Encoding error for proposal #{current_check_id} for {ticker}: {e}, continuing to next proposal")
-                current_check_id += 1
-                # Don't increment consecutive_not_found for encoding errors
-                continue
-            else:
-                print(f"Error checking individual proposal #{current_check_id} for {ticker}: {e}")
-                current_check_id += 1
-                consecutive_not_found += 1
+            print(f"Error checking individual proposal #{current_check_id} for {ticker}: {e}")
+            current_check_id += 1
+            consecutive_not_found += 1
     
     print(f"Finished individual proposal check for {ticker}. Found {len(props)} voting proposals.")
     return props
