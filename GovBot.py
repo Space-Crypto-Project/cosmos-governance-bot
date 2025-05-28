@@ -313,6 +313,110 @@ def save_failure_counter(counter):
 
 failure_counter = load_failure_counter()
 
+def getAllProposalsWithFallback(ticker) -> list:
+    # First try the normal bulk fetch
+    props = getAllProposals(ticker)
+    
+    # If we got proposals or it's not a runtime error, return as normal
+    if len(props) > 0:
+        return props
+    
+    # Check if this ticker had a specific runtime error that indicates we should try individual proposal fetching
+    if ticker in failure_counter and failure_counter[ticker] > 0:
+        print(f"Bulk fetch failed for {ticker}, trying individual proposal fetching...")
+        return getAllProposalsIndividually(ticker)
+    
+    return props
+
+def getAllProposalsIndividually(ticker) -> list:
+    """
+    Fallback method to check proposals individually starting from last known + 1
+    """
+    props = []
+    
+    # Get last known proposal ID for this ticker
+    lastPropID = 0
+    if ticker in proposals:
+        lastPropID = int(proposals[ticker])
+    
+    link = chainAPIs[ticker][0]
+    # Remove the proposals endpoint and prepare for individual proposal checks
+    base_link = link.replace('/proposals', '/proposals/')
+    
+    # Check if link contains /v1/ or /v1beta1/ to determine version
+    if 'v1beta1' in link:
+        version = 'v1beta'
+    else:
+        version = 'v1'
+    
+    current_check_id = lastPropID + 1
+    consecutive_not_found = 0
+    max_consecutive_not_found = 5  # Stop after 5 consecutive "doesn't exist"
+    
+    print(f"Starting individual proposal check for {ticker} from proposal #{current_check_id}")
+    
+    while consecutive_not_found < max_consecutive_not_found:
+        try:
+            individual_url = f"{base_link}{current_check_id}"
+            print(f"Checking individual proposal: {individual_url}")
+            
+            response = requests.get(individual_url, headers={
+                'accept': 'application/json', 
+                'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36'
+            })
+            
+            response_json = response.json()
+            
+            if 'code' in response_json:
+                error_message = response_json.get('message', '').lower()
+                if "doesn't exist" in error_message or "not found" in error_message:
+                    print(f"Proposal #{current_check_id} doesn't exist for {ticker}")
+                    consecutive_not_found += 1
+                    current_check_id += 1
+                    continue
+                else:
+                    print(f"Error fetching proposal #{current_check_id} for {ticker}: {response_json['message']}")
+                    break
+            
+            # Reset consecutive not found counter since we found a proposal
+            consecutive_not_found = 0
+            
+            # Extract the proposal from response
+            proposal = response_json.get('proposal', {})
+            if not proposal:
+                current_check_id += 1
+                continue
+            
+            # Check proposal status
+            status = proposal.get('status', '')
+            
+            # For v1 API, status is a string like "PROPOSAL_STATUS_VOTING_PERIOD"
+            # For v1beta1, status might be a number where 2 = voting period
+            is_voting = False
+            # Both v1 and v1beta1 APIs use the same status string format
+            is_voting = status == "PROPOSAL_STATUS_VOTING_PERIOD"
+            
+            if is_voting:
+                print(f"Found voting proposal #{current_check_id} for {ticker}")
+                props.append(proposal)
+                # Update the chains.json immediately for this proposal
+                update_proposal_value(ticker, current_check_id)
+            else:
+                print(f"Proposal #{current_check_id} for {ticker} is not in voting period (status: {status})")
+                # Still update chains.json to track that we've seen this proposal
+                if current_check_id > lastPropID:
+                    update_proposal_value(ticker, current_check_id)
+            
+            current_check_id += 1
+            
+        except Exception as e:
+            print(f"Error checking individual proposal #{current_check_id} for {ticker}: {e}")
+            current_check_id += 1
+            consecutive_not_found += 1
+    
+    print(f"Finished individual proposal check for {ticker}. Found {len(props)} voting proposals.")
+    return props
+
 def getAllProposals(ticker) -> list:
     # Makes request to API & gets JSON reply in form of a list
     props = []
@@ -321,7 +425,7 @@ def getAllProposals(ticker) -> list:
     if FETCH_LAST_PROP:
         print(f"Getting last proposal for {ticker}")
     else:
-        print(f"Getting live (voting period) proposals with for {ticker}")
+        print(f"Getting live (voting period) proposals for {ticker}")
     
     try:
         link = chainAPIs[ticker][0]
@@ -352,6 +456,13 @@ def getAllProposals(ticker) -> list:
                 failure_counter[ticker] += 1
             else:
                 failure_counter[ticker] = 1
+
+             # Check if this is a runtime error that indicates we should try individual fetching
+            if "runtime error" in response_json.get('message', '').lower() or "nil pointer" in response_json.get('message', '').lower():
+                print(f"Runtime error detected for {ticker}, will try individual proposal fetching")
+                # Don't send email immediately for runtime errors, let the fallback handle it
+                save_failure_counter(failure_counter)
+                return props  # Return empty list to trigger fallback
 
             # If the failure counter reaches 3, send an email notification
             if failure_counter[ticker] >= 3:
@@ -450,8 +561,8 @@ def checkIfNewestProposalIDIsGreaterThanLastTweet(ticker):
     else:
         version = 'v1'
 
-    # gets JSON list of all proposals
-    props = getAllProposals(ticker)
+    # Use the new fallback method
+    props = getAllProposalsWithFallback(ticker)
     if len(props) == 0:
         return "No proposals found for this ticker."
 
