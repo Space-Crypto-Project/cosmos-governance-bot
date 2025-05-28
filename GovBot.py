@@ -410,9 +410,16 @@ def getAllProposalsIndividually(ticker) -> list:
             current_check_id += 1
             
         except Exception as e:
-            print(f"Error checking individual proposal #{current_check_id} for {ticker}: {e}")
-            current_check_id += 1
-            consecutive_not_found += 1
+            error_message = str(e).lower()
+            if "encoding" in error_message or "decode" in error_message or "unicode" in error_message:
+                print(f"Encoding error for proposal #{current_check_id} for {ticker}: {e}, continuing to next proposal")
+                current_check_id += 1
+                # Don't increment consecutive_not_found for encoding errors
+                continue
+            else:
+                print(f"Error checking individual proposal #{current_check_id} for {ticker}: {e}")
+                current_check_id += 1
+                consecutive_not_found += 1
     
     print(f"Finished individual proposal check for {ticker}. Found {len(props)} voting proposals.")
     return props
