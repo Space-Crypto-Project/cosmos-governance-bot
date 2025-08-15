@@ -319,7 +319,7 @@ chainAPIs = {
         "@AxelarNetwork"
     ],
     "dydx": [
-        'https://dydx-api.spacestake.tech/cosmos/gov/v1/proposals',
+        'https://dydx-api.polkachu.com/cosmos/gov/v1/proposals',
         {
             "ping": 'https://explorer.spacestake.tech/dydx/gov',
             "mintscan": 'https://www.mintscan.io/dydx/proposals',
