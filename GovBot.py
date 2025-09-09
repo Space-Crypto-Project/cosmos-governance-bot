@@ -10,6 +10,8 @@ SpaceStake | January 3th, 2025
 Instructions:
 - Install Python 3.10+
 - Install requirements:
+    pip3 install -r requirements.txt
+    or
     pip install -r requirements.txt
 - Execute the script:
     python3 GovBot.py
@@ -455,6 +457,8 @@ def getAllProposals(ticker) -> list:
         #print(response_json)
         if 'code' in response_json:
             error = f"Error fetching proposals for {ticker}: {response_json['message']}"
+            # add link to error
+            error += f"\nLink: {link}"
             print(error)
 
             # Increment the failure counter for the ticker
@@ -473,6 +477,7 @@ def getAllProposals(ticker) -> list:
             # If the failure counter reaches 3, send an email notification
             if failure_counter[ticker] >= 3:
                 if EMAIL_FETCHING_ERROR_NOTIFICATION:
+                    error += f"\nLink: {link}"
                     send_email(f"Error fetching proposals for {ticker}", error)
                 # Reset the counter after sending the email
                 failure_counter[ticker] = 0
@@ -497,6 +502,7 @@ def getAllProposals(ticker) -> list:
 
         if failure_counter[ticker] >= 3:    
             if EMAIL_FETCHING_ERROR_NOTIFICATION:
+                error += f"\nLink: {link}"
                 send_email(f"Error fetching proposals for {ticker}", error)
             failure_counter[ticker] = 0
 
