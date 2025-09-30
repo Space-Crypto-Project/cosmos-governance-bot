@@ -259,7 +259,7 @@ def post_update(ticker, propID, title, description="", cosmovisor_folder="not-de
     if isDAO == False:
         chainExploreLink = get_explorer_link(ticker, propID)
 
-    message = f"${str(ticker).upper()} | Proposal #{propID} | Cosmovisor Folder: '{cosmovisor_folder}' | VOTING | {title} | {chainExploreLink}"
+    message = f"${str(ticker).upper()} | Proposal #{propID} | {description} | Cosmovisor Folder: '{cosmovisor_folder}' | VOTING | {title} | {chainExploreLink}"
     twitterAt = ""
 
     if isDAO == True:
