@@ -253,6 +253,13 @@ def get_explorer_link(ticker, propId):
     # else:
     return f"{chainAPIs[ticker][1][explorerToUse]}/{propId}"
 
+def get_cheatsheet_link(ticker, propId):
+    # Determine if testnet or mainnet based on ticker suffix
+    network_type = "testnets" if ticker.endswith("_testnet") else "networks"
+    # Remove _testnet suffix for URL if present
+    clean_ticker = ticker.replace("_testnet", "")
+    return f"https://spacestake.tech/{network_type}/{clean_ticker}/cheatsheet?tab=governance&proposal_id={propId}"
+
 # This is so messy, make this more OOP related
 def post_update(ticker, propID, title, description="", cosmovisor_folder="not-defined", isDAO=False, DAOVoteLink=""):
     chainExploreLink = DAOVoteLink
@@ -295,7 +302,9 @@ def post_update(ticker, propID, title, description="", cosmovisor_folder="not-de
                 print("Discord post failed: " + str(err))
         if EMAIL_ENABLED:
             try:
-                send_email(f"New Proposal for {ticker}", message)
+                cheatsheet_link = get_cheatsheet_link(ticker, propID)
+                email_body = f"{message}\n\nVote Command Cheatsheet:\n{cheatsheet_link}"
+                send_email(f"New Proposal for {ticker}", email_body)
             except Exception as err:
                 print("Email notification failed: " + str(err))
       
