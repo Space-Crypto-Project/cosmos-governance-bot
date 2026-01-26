@@ -525,6 +525,13 @@ chainAPIs = {
         },
         "@_atomone"
     ],
+    "kiichain": [
+        'https://kiichain-api.spacestake.tech/cosmos/gov/v1/proposals',
+        {
+            "ping": 'https://explorer.spacestake.tech/kiichain/gov',
+        },
+        "@KiiChainio"
+    ],
     "kiichain_testnet": [
         'https://kiichain-testnet-api.spacestake.tech/cosmos/gov/v1beta1/proposals',
         {
