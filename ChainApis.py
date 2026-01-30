@@ -51,8 +51,8 @@ chainAPIs = {
         },
         "@ChihuahuaChain"
         ],
-    'osmo': [
-        'https://lcd-osmosis.blockapsis.com/cosmos/gov/v1beta1/proposals',
+    'osmosis': [
+        'https://osmosis-api.spacestake.tech/cosmos/gov/v1/proposals',
         {
             "ping": 'https://explorer.spacestake.tech/osmosis/gov',
             "mintscan": 'https://www.mintscan.io/osmosis/proposals',
