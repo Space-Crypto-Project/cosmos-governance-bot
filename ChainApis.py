@@ -206,7 +206,6 @@ chainAPIs = {
         'https://iris-api.spacestake.tech/cosmos/gov/v1/proposals',
         {
             "ping": 'https://explorer.spacestake.tech/iris-network/gov',
-            "mintscan": 'https://explorer.chainroot.io/iris/proposals',
             "keplr": 'https://wallet.keplr.app/chains/irisnet/proposals'
         },        
         '@irisnetwork'
