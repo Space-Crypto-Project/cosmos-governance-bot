@@ -88,7 +88,7 @@ chainAPIs = {
         '@StargazeZone'
         ],
     'kava': [
-        'https://api.data.kava.io/cosmos/gov/v1/proposals',
+        'https://kava-api.spacestake.tech/cosmos/gov/v1/proposals',
         {
             "ping": 'https://explorer.spacestake.tech/kava/gov',
             "mintscan": 'https://www.mintscan.io/kava/proposals',
