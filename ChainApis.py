@@ -235,7 +235,7 @@ chainAPIs = {
         '@provenancefdn'
         ],
     "secret": [  
-        'https://lcd-secret.keplr.app/cosmos/gov/v1beta1/proposals',
+        'https://lcd-secret.keplr.app/cosmos/gov/v1/proposals',
         {
             "ping": 'https://explorer.spacestake.tech/secret/gov',
             "mintscan": 'https://www.mintscan.io/secret/proposals',
