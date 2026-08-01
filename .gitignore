@@ -11,3 +11,14 @@ errors.json
 cosmos-governance-bot.log
 cosmos-posts-scan-bot.log
 
+# The globs above anchor on the end of the name, so the copies operators leave behind
+# (secrets.json.bak, secrets.json.save, ...) match nothing and stage live tokens.
+secrets.json.*
+chains.json.*
+*.bak
+*.backup
+*.save
+*.orig
+*~
+*.swp
+
