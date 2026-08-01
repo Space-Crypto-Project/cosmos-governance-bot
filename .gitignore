@@ -7,6 +7,7 @@ chains.json
 errors.json
 .history
 .govbot.lock
+.postscan.lock
 cosmos-governance-bot.log
 cosmos-posts-scan-bot.log
 

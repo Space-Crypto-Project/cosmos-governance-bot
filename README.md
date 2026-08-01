@@ -38,11 +38,23 @@ USE_PYTHON_RUNNABLE
 *if true, run the script in a screen such as `screen -S bot python3 GovBot.py`*<br>
 *if false, use a cronjob with the flock wrapper so overlapping runs are skipped*<br>
 
-such as: `*/15 * * * * /home/ubuntu/cosmos-governance-bot/scripts/run_govbot.sh`<br>
+such as:
 
-Do **not** call `python3 GovBot.py` directly from cron: a single pass over many chains can exceed the cron interval and spawn parallel instances that rate-limit your LCD APIs (HTTP 429).<br>
+```
+*/15 * * * * /home/ubuntu/cosmos-governance-bot/scripts/run_govbot.sh
+0 */4 * * *  /home/ubuntu/cosmos-governance-bot/scripts/run_postscan.sh
+```
 
-The launcher appends to `cosmos-governance-bot.log` so that skipped-run records survive. Cap its size with logrotate rather than from the script — install `scripts/logrotate.govbot` as `/etc/logrotate.d/govbot` and adjust the paths to your checkout.<br>
+Do **not** call `python3 GovBot.py` or `python3 PostScan.py` directly from cron: a single pass over many chains can exceed the cron interval and spawn parallel instances that rate-limit your LCD APIs (HTTP 429). Both entry points delegate to `scripts/run_locked.sh`, which takes a non-blocking `flock` and skips the tick when a previous pass is still running.<br>
+
+To run either script **by hand** (adding a network, testing a change), take the same lock so you cannot collide with a cron tick — this waits instead of skipping, which is what you want interactively:
+
+```bash
+cd $HOME/cosmos-governance-bot
+flock -w 900 .govbot.lock python3 GovBot.py
+```
+
+The launchers append to their log so that skipped-run records survive. Cap the size with logrotate rather than from the script — install `scripts/logrotate.govbot` as `/etc/logrotate.d/govbot` and adjust the paths to your checkout.<br>
 
 LOG_RUNS
 *Just adds logs.txt for when the script is run to ensure success*
