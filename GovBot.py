@@ -40,9 +40,17 @@ from ChainApis import chainAPIs, customExplorerLinks, DAOs
 
 # == Configuration ==
 
-# If false, it is up to you to schedule via crontab -e such as: */30 * * * * cd /root/twitterGovBot && python3 twitterGovernanceBot.py
+# If false, schedule via crontab with the flock wrapper (prevents overlapping runs):
+# */15 * * * * /path/to/cosmos-governance-bot/scripts/run_govbot.sh
 USE_PYTHON_RUNNABLE = False
 LOG_RUNS = False
+
+# Individual-proposal fallback caps (avoids multi-hour scans / API rate limits)
+MAX_INDIVIDUAL_LOOKAHEAD = 50
+MAX_CONSECUTIVE_NOT_FOUND = 5
+
+# Tickers that hit LCD runtime/nil-pointer errors and may use per-proposal fetch
+_individual_fallback_tickers = set()
 
 
 USE_CUSTOM_LINKS = True
@@ -332,8 +340,9 @@ def getAllProposalsWithFallback(ticker) -> list:
     if len(props) > 0:
         return props
     
-    # Check if this ticker had a specific runtime error that indicates we should try individual proposal fetching
-    if ticker in failure_counter and failure_counter[ticker] > 0:
+    # Only fall back for LCD runtime/nil-pointer corruption — never for 429/network blips
+    if ticker in _individual_fallback_tickers:
+        _individual_fallback_tickers.discard(ticker)
         print(f"Bulk fetch failed for {ticker}, trying individual proposal fetching...")
         return getAllProposalsIndividually(ticker)
     
@@ -354,19 +363,13 @@ def getAllProposalsIndividually(ticker) -> list:
     # Remove the proposals endpoint and prepare for individual proposal checks
     base_link = link.replace('/proposals', '/proposals/')
     
-    # Check if link contains /v1/ or /v1beta1/ to determine version
-    if 'v1beta1' in link:
-        version = 'v1beta'
-    else:
-        version = 'v1'
-    
     current_check_id = lastPropID + 1
+    max_check_id = lastPropID + MAX_INDIVIDUAL_LOOKAHEAD
     consecutive_not_found = 0
-    max_consecutive_not_found = 5  # Stop after 5 consecutive "doesn't exist"
     
-    print(f"Starting individual proposal check for {ticker} from proposal #{current_check_id}")
+    print(f"Starting individual proposal check for {ticker} from proposal #{current_check_id} (cap #{max_check_id})")
     
-    while consecutive_not_found < max_consecutive_not_found:
+    while consecutive_not_found < MAX_CONSECUTIVE_NOT_FOUND and current_check_id <= max_check_id:
         try:
             individual_url = f"{base_link}{current_check_id}"
             print(f"Checking individual proposal: {individual_url}")
@@ -375,6 +378,20 @@ def getAllProposalsIndividually(ticker) -> list:
                 'accept': 'application/json', 
                 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36'
             })
+
+            if response.status_code == 429:
+                print(f"Rate limited (429) for {ticker} at proposal #{current_check_id}, stopping individual fetch")
+                break
+
+            content_type = response.headers.get('content-type', '')
+            body_start = response.text.lstrip()[:15].lower()
+            if 'text/html' in content_type or body_start.startswith('<html') or body_start.startswith('<!doctype'):
+                print(f"Non-JSON response for {ticker} at proposal #{current_check_id} (status {response.status_code}), stopping individual fetch")
+                break
+
+            if response.status_code != 200:
+                print(f"HTTP {response.status_code} for {ticker} proposal #{current_check_id}, stopping individual fetch")
+                break
             
             response_json = response.json()
             
@@ -409,7 +426,6 @@ def getAllProposalsIndividually(ticker) -> list:
             
             # For v1 API, status is a string like "PROPOSAL_STATUS_VOTING_PERIOD"
             # For v1beta1, status might be a number where 2 = voting period
-            is_voting = False
             # Both v1 and v1beta1 APIs use the same status string format
             is_voting = status == "PROPOSAL_STATUS_VOTING_PERIOD"
             
@@ -479,6 +495,7 @@ def getAllProposals(ticker) -> list:
              # Check if this is a runtime error that indicates we should try individual fetching
             if "runtime error" in response_json.get('message', '').lower() or "nil pointer" in response_json.get('message', '').lower():
                 print(f"Runtime error detected for {ticker}, will try individual proposal fetching")
+                _individual_fallback_tickers.add(ticker)
                 # Don't send email immediately for runtime errors, let the fallback handle it
                 save_failure_counter(failure_counter)
                 return props  # Return empty list to trigger fallback
