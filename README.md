@@ -42,6 +42,8 @@ such as: `*/15 * * * * /home/ubuntu/cosmos-governance-bot/scripts/run_govbot.sh`
 
 Do **not** call `python3 GovBot.py` directly from cron: a single pass over many chains can exceed the cron interval and spawn parallel instances that rate-limit your LCD APIs (HTTP 429).<br>
 
+The launcher appends to `cosmos-governance-bot.log` so that skipped-run records survive. Cap its size with logrotate rather than from the script — install `scripts/logrotate.govbot` as `/etc/logrotate.d/govbot` and adjust the paths to your checkout.<br>
+
 LOG_RUNS
 *Just adds logs.txt for when the script is run to ensure success*
 </br></br>

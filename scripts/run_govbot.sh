@@ -7,7 +7,6 @@ cd "$ROOT"
 
 LOCKFILE="${ROOT}/.govbot.lock"
 LOGFILE="${ROOT}/cosmos-governance-bot.log"
-MAX_LOG_LINES=20000
 
 exec 9>"$LOCKFILE"
 # `if ! flock` would reset $? to 0, so capture the status on the failure branch itself.
@@ -23,8 +22,6 @@ elif [ "$status" -ne 0 ]; then
   exit "$status"
 fi
 
-if [ -f "$LOGFILE" ] && [ "$(wc -l < "$LOGFILE")" -gt "$MAX_LOG_LINES" ]; then
-  tail -n "$MAX_LOG_LINES" "$LOGFILE" > "${LOGFILE}.trim" && mv "${LOGFILE}.trim" "$LOGFILE"
-fi
-
+# Log size is capped by logrotate (scripts/logrotate.govbot), not here: rotating from
+# this script would swap the inode under a concurrent skip append and lose that record.
 python3 GovBot.py >> "$LOGFILE" 2>&1
