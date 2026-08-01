@@ -6,4 +6,7 @@ secrets.json
 chains.json
 errors.json
 .history
+.govbot.lock
+cosmos-governance-bot.log
+cosmos-posts-scan-bot.log
 

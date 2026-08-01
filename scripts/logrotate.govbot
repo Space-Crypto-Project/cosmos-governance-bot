@@ -1,0 +1,14 @@
+# Install as /etc/logrotate.d/govbot (root-owned, mode 644) and adjust the paths to
+# match the checkout. copytruncate is required: run_govbot.sh and PostScan.py hold these
+# files open in append mode, so a rename would leave them writing to the old inode.
+/home/ubuntu/cosmos-governance-bot/cosmos-governance-bot.log
+/home/ubuntu/cosmos-governance-bot/cosmos-posts-scan-bot.log {
+    daily
+    rotate 7
+    maxsize 5M
+    missingok
+    notifempty
+    compress
+    delaycompress
+    copytruncate
+}

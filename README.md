@@ -36,9 +36,13 @@ EMAIL<br>
 
 USE_PYTHON_RUNNABLE 
 *if true, run the script in a screen such as `screen -S bot python3 GovBot.py`*<br>
-*if false, use a cronjob to auto run it when you want, use https://crontab.guru/examples.html for help, must cd to directory first*<br>
+*if false, use a cronjob with the flock wrapper so overlapping runs are skipped*<br>
 
-such as: `*/30 * * * * cd /root/CosmosBot && python3 GovBot.py`<br>
+such as: `*/15 * * * * /home/ubuntu/cosmos-governance-bot/scripts/run_govbot.sh`<br>
+
+Do **not** call `python3 GovBot.py` directly from cron: a single pass over many chains can exceed the cron interval and spawn parallel instances that rate-limit your LCD APIs (HTTP 429).<br>
+
+The launcher appends to `cosmos-governance-bot.log` so that skipped-run records survive. Cap its size with logrotate rather than from the script — install `scripts/logrotate.govbot` as `/etc/logrotate.d/govbot` and adjust the paths to your checkout.<br>
 
 LOG_RUNS
 *Just adds logs.txt for when the script is run to ensure success*
