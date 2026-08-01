@@ -49,6 +49,9 @@ LOG_RUNS = False
 MAX_INDIVIDUAL_LOOKAHEAD = 50
 MAX_CONSECUTIVE_NOT_FOUND = 5
 
+# (connect, read) seconds — a stalled LCD would otherwise hold the cron lock forever
+REQUEST_TIMEOUT = (10, 30)
+
 # Tickers that hit LCD runtime/nil-pointer errors and may use per-proposal fetch
 _individual_fallback_tickers = set()
 
@@ -377,7 +380,7 @@ def getAllProposalsIndividually(ticker) -> list:
             response = requests.get(individual_url, headers={
                 'accept': 'application/json', 
                 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36'
-            })
+            }, timeout=REQUEST_TIMEOUT)
 
             if response.status_code == 429:
                 print(f"Rate limited (429) for {ticker} at proposal #{current_check_id}, stopping individual fetch")
@@ -442,6 +445,12 @@ def getAllProposalsIndividually(ticker) -> list:
             
             current_check_id += 1
             
+        except requests.Timeout as e:
+            print(f"Timed out for {ticker} at proposal #{current_check_id}: {e}, stopping individual fetch")
+            break
+        except ValueError as e:
+            print(f"Invalid JSON for {ticker} at proposal #{current_check_id}: {e}, stopping individual fetch")
+            break
         except Exception as e:
             print(f"Error checking individual proposal #{current_check_id} for {ticker}: {e}")
             current_check_id += 1
@@ -476,7 +485,7 @@ def getAllProposals(ticker) -> list:
         response = requests.get(link, headers={
             'accept': 'application/json', 
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36'}, 
-            params=PARAMS) 
+            params=PARAMS, timeout=REQUEST_TIMEOUT) 
         
         response_json = response.json()
         #print(response_json)
