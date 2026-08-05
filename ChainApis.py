@@ -19,6 +19,7 @@ Custom links will only be used if true in the GovBot file
 customExplorerLinks = {
     "dig": "https://app.digchain.org/proposals",
     "terra": "https://station.terra.money/proposal",
+    "secret": "https://zonescan.io/secret/governance",
     # "kuji": "https://kujira.explorers.guru/proposal",
 }
 
@@ -237,6 +238,7 @@ chainAPIs = {
     "secret": [  
         'https://lcd-secret.keplr.app/cosmos/gov/v1/proposals',
         {
+            "zonescan": 'https://zonescan.io/secret/governance',
             "ping": 'https://explorer.spacestake.tech/secret/gov',
             "mintscan": 'https://www.mintscan.io/secret/proposals',
             "keplr": 'https://wallet.keplr.app/chains/secret-network/proposals'
