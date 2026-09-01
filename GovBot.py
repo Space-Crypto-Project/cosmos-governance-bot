@@ -335,6 +335,17 @@ def save_failure_counter(counter):
 
 failure_counter = load_failure_counter()
 
+def is_proposal_decoding_error(response_json: dict) -> bool:
+    """Return whether an LCD could not decode one persisted proposal record."""
+    message = str(response_json.get('message', '')).lower()
+    return any(marker in message for marker in (
+        'runtime error',
+        'nil pointer',
+        'encoding',
+        'decode',
+        'wrong wiretype',
+    ))
+
 def getAllProposalsWithFallback(ticker) -> list:
     # First try the normal bulk fetch
     props = getAllProposals(ticker)
@@ -392,11 +403,19 @@ def getAllProposalsIndividually(ticker) -> list:
                 print(f"Non-JSON response for {ticker} at proposal #{current_check_id} (status {response.status_code}), stopping individual fetch")
                 break
 
+            try:
+                response_json = response.json()
+            except ValueError as e:
+                print(f"Invalid JSON for {ticker} at proposal #{current_check_id}: {e}, stopping individual fetch")
+                break
+
             if response.status_code != 200:
+                if is_proposal_decoding_error(response_json):
+                    print(f"Decoding error for proposal #{current_check_id} for {ticker}: {response_json.get('message', '')}, continuing to next proposal")
+                    current_check_id += 1
+                    continue
                 print(f"HTTP {response.status_code} for {ticker} proposal #{current_check_id}, stopping individual fetch")
                 break
-            
-            response_json = response.json()
             
             if 'code' in response_json:
                 error_message = response_json.get('message', '').lower()
@@ -406,7 +425,7 @@ def getAllProposalsIndividually(ticker) -> list:
                     current_check_id += 1
                     continue
                 else:
-                    if "encoding" in error_message or "decode" in error_message or "unicode" in error_message:
+                    if is_proposal_decoding_error(response_json) or "unicode" in error_message:
                         print(f"Encoding error for proposal #{current_check_id} for {ticker}: {response_json['message']}, continuing to next proposal")
                         current_check_id += 1
                         # Don't increment consecutive_not_found for encoding errors
@@ -501,11 +520,11 @@ def getAllProposals(ticker) -> list:
             else:
                 failure_counter[ticker] = 1
 
-             # Check if this is a runtime error that indicates we should try individual fetching
-            if "runtime error" in response_json.get('message', '').lower() or "nil pointer" in response_json.get('message', '').lower():
-                print(f"Runtime error detected for {ticker}, will try individual proposal fetching")
+            if is_proposal_decoding_error(response_json):
+                print(f"Proposal decoding error detected for {ticker}, will try individual proposal fetching")
                 _individual_fallback_tickers.add(ticker)
-                # Don't send email immediately for runtime errors, let the fallback handle it
+                # A successful per-proposal pass is a healthy recovery path, not a fetch failure.
+                failure_counter[ticker] = 0
                 save_failure_counter(failure_counter)
                 return props  # Return empty list to trigger fallback
 
@@ -799,3 +818,4 @@ if __name__ == "__main__":
             
 
     
+
