@@ -541,11 +541,4 @@ chainAPIs = {
         },
         "@axonexyz"
     ],
-    "arkeo": [
-        'https://arkeo-api.spacestake.tech/cosmos/gov/v1/proposals',
-        {
-            "ping": 'https://explorer.spacestake.tech/arkeo/gov',
-        },
-        "@arkeonetwork"
-    ],
 }
