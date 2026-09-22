@@ -203,14 +203,6 @@ chainAPIs = {
         },        
         '@InjectiveLabs'
         ],
-    "iris": [  
-        'https://iris-api.spacestake.tech/cosmos/gov/v1/proposals',
-        {
-            "ping": 'https://explorer.spacestake.tech/iris-network/gov',
-            "keplr": 'https://wallet.keplr.app/chains/irisnet/proposals'
-        },        
-        '@irisnetwork'
-        ],
     "lum": [  
         'https://node0.mainnet.lum.network/rest/cosmos/gov/v1/proposals',
         {
